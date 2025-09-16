@@ -1,0 +1,50 @@
+.home {
+  text-align: center;
+  padding: 20px;
+}
+
+.seat-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 40px); /* 10열 */
+  gap: 10px;
+  justify-content: center;
+  margin: 20px auto;
+}
+
+.seat {
+  width: 40px;
+  height: 40px;
+  background-color: lightgray;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.seat:hover {
+  background-color: darkgray;
+}
+
+.seat.selected {
+  background-color: green;
+  color: white;
+}
+
+.reserve-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: blue;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.reserve-btn:hover {
+  background: darkblue;
+}
