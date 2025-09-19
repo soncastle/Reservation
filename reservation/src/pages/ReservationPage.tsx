@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./HomePage.css";
+import "../styles/ReservationPage.css";
 
-function HomePage() {
+function ReservationPage() {
   const totalSeats = 50; // 좌석 수 (예시)
   const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
 
@@ -37,7 +37,7 @@ function HomePage() {
             >
               {seatId}
             </div>
-          );
+          ); 
         })}
       </div>
       <button className="reserve-btn" onClick={handleReservation}>
@@ -47,4 +47,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default ReservationPage;

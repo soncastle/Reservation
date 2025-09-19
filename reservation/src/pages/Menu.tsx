@@ -2,10 +2,10 @@ import React from 'react';
 import '../styles/Menu.css';
 import { useNavigate } from 'react-router-dom';
 import MainPage from './MainPage';
-import GoHomeAndMenu from '../hooks/GoHomeAndMenu';
+import {useGoHomeAndMenu} from '../hooks/useGo';
 
 const Menu = () => {
-  const {handleGoHome, handleGoMenu} = GoHomeAndMenu();  
+  const {goHome, goMenu} = useGoHomeAndMenu();  
 
   return (
     <div className="main-container">
@@ -53,7 +53,7 @@ const Menu = () => {
         </tbody>
       </table>
     </div>
-      <button onClick={handleGoHome}>예약 확인</button>
+      <button onClick={goHome}>예약 확인</button>
      </div>
   );
 };
