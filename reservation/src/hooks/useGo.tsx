@@ -1,10 +1,9 @@
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export const useGoHomeAndMenu = () => {
     const navagate = useNavigate();
     const goHome = () => {
-        navagate('/ReservationPage');
+        navagate('/SeatsReservation');
     }
     const goMenu = () => {
         navagate('/Menu');
