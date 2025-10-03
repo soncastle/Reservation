@@ -26,3 +26,19 @@ export const useGoMap = () => {
     }
     return {goMap};
 }
+
+export const useGoLoginPage = () =>{
+    const navagate = useNavigate();
+    const goLoginPage = () => {
+        navagate('/LoginPage');
+    }
+    return {goLoginPage};
+}
+
+export const useGoSignUpPage = () => {
+    const navagate = useNavigate();
+    const goSignUpPage = () => {
+        navagate('/SignUpPage');
+    }
+    return {goSignUpPage};
+}

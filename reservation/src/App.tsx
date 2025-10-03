@@ -8,6 +8,8 @@ import Menu from './pages/Menu';
 import MovieList from './pages/MovieList';
 import Map from './pages/Map';
 import SeatsReservation from './pages/SeatsReservation';
+import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           <Route path="/menu" element={<Menu/>}/>
           <Route path="/movielist" element={<MovieList/>}/>
           <Route path="/map" element={<Map/>}/>
+          <Route path="/loginPage" element={<LoginPage/>}/>
+          <Route path='/signuppage' element={<SignUpPage/>}/>
         </Routes>
               <hr />
       <Footer/>

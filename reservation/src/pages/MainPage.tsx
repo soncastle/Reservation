@@ -2,7 +2,7 @@ import React from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { Link, useNavigate } from 'react-router-dom'
-import { useGoHomeAndMenu, useGoMap, useGoShowMoviceList } from '../hooks/useGo'
+import { useGoHomeAndMenu, useGoLoginPage, useGoMap, useGoShowMoviceList, useGoSignUpPage } from '../hooks/useGo'
 
 
 const MainPage = () => {
@@ -12,6 +12,8 @@ const MainPage = () => {
     const {goHome, goMenu} = useGoHomeAndMenu();
     const {goMoviceList} = useGoShowMoviceList();
     const {goMap} = useGoMap();
+    const {goLoginPage} = useGoLoginPage();
+    const {goSignUpPage} = useGoSignUpPage();
     // const navigate = useNavigate();
     // const handleGoHome = () => {
     //     navigate('/HomePage');
@@ -26,6 +28,8 @@ const MainPage = () => {
     <button onClick={goMenu}>메뉴 확인</button>
     <button onClick={goMoviceList}>영화 리스트 확인</button>
     <button onClick={goMap}>장소 확인</button>
+    <button onClick={goLoginPage}>로그인</button>
+    <button onClick={goSignUpPage}>회원가입</button>
     <div>   
     <img className="image" src={imagePath1} alt="사진1" />
     <img className="image" src={imagePath2} alt="사진2" />
