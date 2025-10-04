@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/SignUpPage.css";
+import axios from "axios";
 
 const SignUpPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -7,7 +8,7 @@ const SignUpPage: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -15,12 +16,22 @@ const SignUpPage: React.FC = () => {
       return;
     }
 
-    console.log("회원가입 정보:", { email, password });
-    // 👉 실제 회원가입 API 연동 로직 필요
+  try {
+    const response = await axios.post("http://localhost:8080/api/user/signup", {
+      email,
+      userName,
+      password,
+    });
+    alert("회원가입 성공!");
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+    alert("회원가입 실패!");
+  }
   };
 
   return (
-    <div className="signup-container">
+    <div className="signu.p-container">
       <h2 className="signup-title">회원가입</h2>
       <form className="signup-form" onSubmit={handleSubmit}>
         <div className="form-group">

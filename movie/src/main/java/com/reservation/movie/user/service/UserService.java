@@ -18,6 +18,9 @@ public class UserService {
     }
 
     public String createUser(UserDto userDto){
+        if(userRepository.existsByEmail(userDto.getEmail())){
+            return "이미 존재하는 이메일입니다.";
+        };
         User createUser = userDto.toEntity();
         userRepository.save(createUser);
         return "저장완료";
