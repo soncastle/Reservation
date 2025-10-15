@@ -79,14 +79,14 @@ const MovieList = () => {
             />
             <h3>{selectedMovie.title}</h3>
             <div className="modal-buttons">
-<button
-  className="confirm"
-  onClick={() =>
-    navigate(`/SeatsReservation/${selectedMovie.id}`, {
-      state: { title: selectedMovie.title }, // 제목도 같이 전달
-    })
-  }
->
+          <button
+            className="confirm"
+            onClick={() =>
+              navigate(`/SeatsReservation/${selectedMovie.id}`, {
+                state: { title: selectedMovie.title }, // 제목도 같이 전달
+              })
+            }
+          >
                 예매하기
               </button>
               <button className="cancel" onClick={() => setSelectedMovie(null)}>

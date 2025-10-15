@@ -11,6 +11,11 @@
   margin: 20px auto;
 }
 
+.seat.reserved {
+  background-color: #999; /* 회색 */
+  cursor: not-allowed;
+}
+
 .seat {
   width: 40px;
   height: 40px;
