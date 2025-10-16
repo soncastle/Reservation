@@ -14,6 +14,7 @@ import SignUpPage from './pages/SignUpPage';
 function App() {
   return (
     <div className="App">
+      <div className='backGroundColor'>
       <Header/>
       <hr />
       <BrowserRouter>
@@ -29,8 +30,8 @@ function App() {
               <hr />
       <Footer/>
       </BrowserRouter>
-
-    </div>
+      </div>
+      </div>
   );
 }
 

@@ -1,10 +1,11 @@
 import React from 'react'
+import '../styles/Tailwind.css'
 
 const Header = () => {
     const imagePath: string = '/images/logo.jpg ';
   return (
     <div>
-        <img className='image' src={imagePath} alt="Header Image"></img>
+        <img className='w-80' src={imagePath} alt="Header Image"></img>
     </div>
   )
 }

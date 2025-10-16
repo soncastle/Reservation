@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, Navigate, useNavigate } from "react-router-dom";
 import "../styles/SeatsReservation.css";
 import axios from "axios";
+import { useGoBack, useGoMainPage } from "../hooks/useGo";
 
 function SeatsReservation() {
   const { movieId } = useParams(); // URL에서 영화 ID
@@ -14,6 +15,8 @@ function SeatsReservation() {
 
   const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
   const [reservedSeats, setReservedSeats] = useState<number[]>([]);
+  const {goMainPage} = useGoMainPage();
+  const goBack = useGoBack();
 
   // ✅ 서버에서 예약된 좌석 가져오기
   useEffect(() => {
@@ -97,10 +100,13 @@ function SeatsReservation() {
           );
         })}
       </div>
-
+      <div>
       <button className="reserve-btn" onClick={handleReservation}>
         예약하기
       </button>
+      <button className="reserve-btn" onClick={goMainPage}>메인페이지로</button>
+      <button className="reserve-btn" onClick={goBack}>이전으로</button>
+      </div>
     </div>
   );
 }

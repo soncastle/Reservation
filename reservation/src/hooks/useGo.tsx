@@ -42,3 +42,19 @@ export const useGoSignUpPage = () => {
     }
     return {goSignUpPage};
 }
+
+export const useGoMainPage = () => {
+    const navagate = useNavigate();
+    const goMainPage = () => {
+        navagate('/');
+    }
+    return{goMainPage};
+}
+
+export const useGoBack = () => {
+    const navigate = useNavigate();
+    const goBack = () => {
+        navigate(-1);
+    }
+    return goBack;
+}

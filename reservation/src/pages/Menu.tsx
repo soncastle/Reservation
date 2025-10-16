@@ -2,11 +2,11 @@ import React from 'react';
 import '../styles/Menu.css';
 import { useNavigate } from 'react-router-dom';
 import MainPage from './MainPage';
-import {useGoHomeAndMenu} from '../hooks/useGo';
+import {useGoBack, useGoHomeAndMenu} from '../hooks/useGo';
 
 const Menu = () => {
   const {goHome, goMenu} = useGoHomeAndMenu();  
-
+  const goBack = useGoBack();
   return (
     <div className="main-container">
       <h1>24시 김밥과 토스트 마리솔 & 야간포차 메뉴</h1>
@@ -53,7 +53,7 @@ const Menu = () => {
         </tbody>
       </table>
     </div>
-      <button onClick={goHome}>예약 확인</button>
+    <button onClick={goBack}>이전으로</button>
      </div>
   );
 };
