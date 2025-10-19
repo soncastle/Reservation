@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom'
+import IntroducePage from '../pages/IntroducePage';
 
 export const useGoHomeAndMenu = () => {
     const navagate = useNavigate();
     const goHome = () => {
-        navagate('/SeatsReservation');
+        navagate('/');
     }
     const goMenu = () => {
         navagate('/Menu');
@@ -56,5 +57,13 @@ export const useGoBack = () => {
     const goBack = () => {
         navigate(-1);
     }
-    return goBack;
+    return {goBack};
+}
+
+export const useGoIntroducePage = () => {
+    const navigate = useNavigate();
+    const goIntroducePage = () => {
+        navigate('/IntroducePage');       
+    }
+    return {goIntroducePage};
 }

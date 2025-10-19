@@ -6,7 +6,7 @@ import {useGoBack, useGoHomeAndMenu} from '../hooks/useGo';
 
 const Menu = () => {
   const {goHome, goMenu} = useGoHomeAndMenu();  
-  const goBack = useGoBack();
+  const {goBack} = useGoBack();
   return (
     <div className="main-container">
       <h1>24시 김밥과 토스트 마리솔 & 야간포차 메뉴</h1>

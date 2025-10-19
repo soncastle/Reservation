@@ -3,7 +3,7 @@ import '../styles/Tailwind.css'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { Link, useNavigate } from 'react-router-dom'
-import { useGoHomeAndMenu, useGoLoginPage, useGoMap, useGoShowMoviceList, useGoSignUpPage } from '../hooks/useGo'
+import { useGoHomeAndMenu, useGoIntroducePage, useGoLoginPage, useGoMap, useGoShowMoviceList, useGoSignUpPage } from '../hooks/useGo'
 
 
 const MainPage = () => {
@@ -15,16 +15,12 @@ const MainPage = () => {
     const {goMap} = useGoMap();
     const {goLoginPage} = useGoLoginPage();
     const {goSignUpPage} = useGoSignUpPage();
-    // const navigate = useNavigate();
-    // const handleGoHome = () => {
-    //     navigate('/HomePage');
-    // }
-    // const handleGoMenu = () => {
-    //     navigate('/Menu');
-    // }
+    const {goIntroducePage} = useGoIntroducePage();
+
   return (
     <div>
         <h1>순찬이네 영화관</h1>
+    <button onClick={goIntroducePage}> 찬이네란? </button>
     <button onClick={goMenu}>메뉴 확인</button>
     <button onClick={goMoviceList}>영화 리스트 확인</button>
     <button onClick={goMap}>장소 확인</button>

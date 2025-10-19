@@ -16,7 +16,7 @@ function SeatsReservation() {
   const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
   const [reservedSeats, setReservedSeats] = useState<number[]>([]);
   const {goMainPage} = useGoMainPage();
-  const goBack = useGoBack();
+  const {goBack} = useGoBack();
 
   // ✅ 서버에서 예약된 좌석 가져오기
   useEffect(() => {
@@ -104,7 +104,6 @@ function SeatsReservation() {
       <button className="reserve-btn" onClick={handleReservation}>
         예약하기
       </button>
-      <button className="reserve-btn" onClick={goMainPage}>메인페이지로</button>
       <button className="reserve-btn" onClick={goBack}>이전으로</button>
       </div>
     </div>

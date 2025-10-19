@@ -31,5 +31,4 @@ public class Seats {
     @ManyToOne
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;
-
 }
