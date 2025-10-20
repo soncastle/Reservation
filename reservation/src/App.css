@@ -1,7 +1,24 @@
-.App {
-  text-align: center;
+/* 공통 초기화 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
+/* html, body, root 전체 높이 확보 */
+html, body, #root {
+  height: 100%;
+}
+
+/* App 전체를 화면 꽉 채우기 */
+.App {
+  text-align: center;
+  min-height: 100vh; /* 화면 전체 높이 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 기존 App-logo 애니메이션 유지 */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -13,9 +30,10 @@
   }
 }
 
+/* App-header: 중앙 정렬 영역 (MainPage 등에서 활용 가능) */
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  flex: 1; /* 남은 공간 꽉 채우기 */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,10 +42,12 @@
   color: white;
 }
 
+/* 링크 색상 유지 */
 .App-link {
   color: #61dafb;
 }
 
+/* 로고 회전 애니메이션 */
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -37,6 +57,22 @@
   }
 }
 
+/* 배경색 영역 */
 .backGroundColor {
-  background-color:antiquewhite
+  background-color: antiquewhite;
+  flex: 1; /* App 내부에서 남은 공간 모두 차지 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 헤더/푸터가 위아래에 고정되도록 */
+header, footer {
+  flex-shrink: 0;
+}
+
+/* 구분선(hr) 깔끔하게 */
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 0;
 }

@@ -1,40 +1,51 @@
 import React, { useEffect } from "react";
 
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
 const Map: React.FC = () => {
   useEffect(() => {
-    // 카카오맵 스크립트 로드
+    // 이미 로드된 스크립트 중복 방지
+    const existingScript = document.getElementById("kakao-map-script");
+    if (existingScript) return;
+
     const script = document.createElement("script");
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=f6a7620121c2facb0292961f283a5a11`;
+    script.id = "kakao-map-script";
+    script.src = "https://dapi.kakao.com/v2/maps/sdk.js?appkey=f6a7620121c2facb0292961f283a5a11&autoload=false";
     script.async = true;
+    document.head.appendChild(script);
+
     script.onload = () => {
-      if (window.kakao) {
-        const kakao = window.kakao;
+      window.kakao.maps.load(() => {
         const container = document.getElementById("map");
+        if (!container) return;
+
         const options = {
-          center: new kakao.maps.LatLng(37.5665, 126.9780), // 서울 시청
+          center: new window.kakao.maps.LatLng(37.5665, 126.9780),
           level: 3,
         };
-        const map = new kakao.maps.Map(container, options);
 
-        // 마커 추가
-        const marker = new kakao.maps.Marker({
-          position: new kakao.maps.LatLng(37.5665, 126.9780),
+        const map = new window.kakao.maps.Map(container, options);
+
+        const marker = new window.kakao.maps.Marker({
+          position: new window.kakao.maps.LatLng(37.5665, 126.9780),
         });
         marker.setMap(map);
 
-        // 인포윈도우 추가
-        const infowindow = new kakao.maps.InfoWindow({
+        const infowindow = new window.kakao.maps.InfoWindow({
           content: "<div style='padding:5px;'>서울 시청</div>",
         });
         infowindow.open(map, marker);
-      }
+      });
     };
-    document.head.appendChild(script);
   }, []);
 
   return (
     <div>
-      <h2>카카오 지도 (TypeScript)</h2>
+      <h2>카카오 지도</h2>
       <div id="map" style={{ width: "100%", height: "500px" }}></div>
     </div>
   );
