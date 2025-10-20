@@ -20,16 +20,11 @@ const Menu = () => {
             <th>야채비빔밥</th>
             <th>된장찌개</th>
             <th>육개장</th>
-            <th>떡만두국</th>
-            <th>만두국</th>
-            <th>떡국</th>
             <th>김치비빔국수</th>
             <th>생선까스</th>
             <th>고구마치즈돈까스</th>
             <th>치즈돈까스</th>
             <th>등심돈까스</th>
-            <th>꽁치김치찌개</th>
-            <th>쫄면</th>
           </tr>
         </thead>
         <tbody>
@@ -39,16 +34,11 @@ const Menu = () => {
             <td>7,000원</td>
             <td>7,000원</td>
             <td>8,000원</td>
-            <td>7,000원</td>
-            <td>7,000원</td>
-            <td>7,000원</td>
             <td>6,500원</td>
             <td>8,000원</td>
             <td>9,000원</td>
             <td>8,500원</td>
             <td>8,000원</td>
-            <td>8,000원</td>
-            <td>7,000원</td>
           </tr>
         </tbody>
       </table>

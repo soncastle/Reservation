@@ -47,7 +47,8 @@ const MovieList = () => {
 
   return (
     <div className="movie-list">
-      <h1>🎬 현재 상영 중인 영화</h1>
+      <h1>🎬 상영 예정 영화</h1>
+      <br/>
       <div className="movies">
         {movies.map((movie) => (
           <div

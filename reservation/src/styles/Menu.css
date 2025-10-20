@@ -1,49 +1,55 @@
-/* 테이블 전체를 감싸는 컨테이너 */
-.sub-container {
-  overflow-x: auto; /* 내용이 넘칠 경우 가로 스크롤바 생성 */
-  margin: 20px auto; /* 중앙 정렬 및 여백 */
-  max-width: 900px; /* 테이블 최대 너비 설정 */
-}
-
-/* 테이블 기본 스타일 */
 .menu-table {
   width: 100%;
-  border-collapse: collapse; /* 셀 간의 경계선 합치기 */
-  font-family: 'Arial', sans-serif;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fffdf6; /* 따뜻한 베이지톤 배경 */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  font-family: 'Pretendard', sans-serif;
 }
 
-/* 테이블 제목 (caption) 스타일 */
-.menu-table caption {
-  font-size: 1.5em;
-  font-weight: bold;
-  padding: 10px;
-  color: #333;
-}
-
-/* 헤더 셀 (th) 스타일 */
 .menu-table th {
-  background-color: #7f27a8; /* 녹색 배경 */
-  color: white; /* 흰색 글씨 */
-  padding: 12px 15px;
+  background: linear-gradient(180deg, #ff8c42);
+  color: white;
+  padding: 14px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
   text-align: center;
-  white-space: nowrap; /* 글씨가 줄 바꿈되지 않도록 */
 }
 
-/* 데이터 셀 (td) 스타일 */
+.menu-table th:last-child {
+  border-right: none;
+}
+
 .menu-table td {
-  border: 1px solid #ddd;
-  padding: 10px 15px;
+  background-color: #fffaf3;
+  border: 1px solid #f0e4d7;
+  padding: 14px 10px;
   text-align: center;
-  white-space: nowrap; /* 글씨가 줄 바꿈되지 않도록 */
+  font-size: 0.95rem;
+  color: #4a3f35;
+  transition: background 0.3s;
 }
 
-/* 테이블 행(tr)에 마우스를 올렸을 때 효과 */
-.menu-table tbody tr:hover {
-  background-color: #f5f5f5;
-  transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
+.menu-table tbody tr:hover td {
+  background-color: #fff2d8;
 }
 
-.image {
-  width: 30%;
+.menu-table tbody tr:nth-child(even) td {
+  background-color: #fff8ed;
+}
+
+.menu-table thead th:first-child {
+  border-top-left-radius: 12px;
+}
+.menu-table thead th:last-child {
+  border-top-right-radius: 12px;
+}
+.menu-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+.menu-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
 }
