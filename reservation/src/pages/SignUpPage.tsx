@@ -31,7 +31,7 @@ const SignUpPage: React.FC = () => {
   };
 
   return (
-    <div className="signu.p-container">
+    <div className="signup-container">
       <h2 className="signup-title">회원가입</h2>
       <form className="signup-form" onSubmit={handleSubmit}>
         <div className="form-group">

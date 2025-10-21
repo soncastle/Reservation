@@ -13,8 +13,8 @@ const MainPage = () => {
 
   return (
     <div>
-        <h1>마리솔 영화관</h1>
-    <div className='grid grid-cols-3 gap-4 mt-3 mb-3'>
+        <h1 className='mt-5'>마이리솔 영화관</h1>
+    <div className='grid grid-cols-3 gap-4 mt-6 mb-7'>
     <img className="w-full h-64 object-cover rounded-lg" src={imagePath1} alt="사진1" />
     <img className="w-full h-64 object-cover rounded-lg" src={imagePath2} alt="사진2" />
     <img className="w-full h-64 object-cover rounded-lg" src={imagePath3} alt="사진3" />

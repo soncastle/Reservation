@@ -1,0 +1,27 @@
+@import url('https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css');
+
+.footer-button {
+background-color: lab(91% 3.56 13.84); /* 파란색 배경 */
+color: rgb(65, 65, 65);              /* 글자색 */
+padding: 1px 2px;         /* 안쪽 여백 */
+border-radius: 5px;     /* 완전히 동그랗게 */
+border-color: lab(87.37% 5.63 21.27);
+cursor: pointer;           /* 마우스 올리면 손모양 */
+font-weight: bold;
+transition: background-color 0.3s ease;
+margin-top: 8px;
+}
+
+.footer-button:hover{
+    background-color: lab(73.17% 10.47 18.74);
+    border-color: lab(60.46% 5.89 22.78);
+}
+
+.footer-text{
+    margin-top: 5px;
+}
+
+.footer-text div{
+font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+font-size: 15px;
+}

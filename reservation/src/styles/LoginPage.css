@@ -1,7 +1,7 @@
 .login-container {
   width: 100%;
   max-width: 400px;
-  margin: 80px auto;
+  margin: 40px auto;
   padding: 30px;
   border-radius: 12px;
   background: #fff;
@@ -42,16 +42,16 @@
 }
 
 .form-group input:focus {
-  border-color: #4f8ef7;
-  box-shadow: 0 0 4px rgba(79,142,247,0.4);
+  border-color: lab(74.22% 19.69 50.94);
+  box-shadow: 0 0 4px lab(61.42% 12.24 34.23);
 }
 
 .login-button {
   padding: 12px;
-  border: none;
+  border-color: lab(74.22% 19.69 50.94);
   border-radius: 8px;
-  background-color: #4f8ef7;
-  color: white;
+  background-color:  lab(81.78% 11.43 34.08);
+  color: rgb(94, 89, 89);
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
@@ -59,5 +59,5 @@
 }
 
 .login-button:hover {
-  background-color: #3a6edb;
+  background-color: lab(62.9% 21.21 51.62);
 }

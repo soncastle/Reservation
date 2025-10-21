@@ -1,50 +1,39 @@
 import React from 'react';
 import '../styles/Menu.css';
-import { useNavigate } from 'react-router-dom';
-import MainPage from './MainPage';
-import {useGoBack, useGoHomeAndMenu} from '../hooks/useGo';
 
-const Menu = () => {
-  const {goHome, goMenu} = useGoHomeAndMenu();  
-  const {goBack} = useGoBack();
+interface MenuItem {
+  name: string;
+  price: string;
+}
+
+const menuItems: MenuItem[] = [
+  { name: '야채 토스트', price: '3,000원' },
+  { name: '돌솥비빔밥', price: '8,000원' },
+  { name: '야채비빔밥', price: '7,000원' },
+  { name: '된장찌개', price: '7,000원' },
+  { name: '육개장', price: '8,000원' },
+  { name: '김치비빔국수', price: '6,500원' },
+  { name: '생선까스', price: '8,000원' },
+  { name: '고구마치즈돈까스', price: '9,000원' },
+  { name: '치즈돈까스', price: '8,500원' },
+  { name: '등심돈까스', price: '8,000원' },
+  { name: '소주', price: '4,000원' },
+  { name: '생맥주', price: '4,000원' },
+];
+
+const Menu: React.FC = () => {
   return (
-    <div className="main-container">
-      <h1>24시 김밥과 토스트 마리솔 & 야간포차 메뉴</h1>
-    <div className="sub-container">
-      <table className="menu-table">
-        <caption></caption>
-        <thead>
-          <tr>
-            <th>야채 토스트</th>
-            <th>돌솥비빔밥</th>
-            <th>야채비빔밥</th>
-            <th>된장찌개</th>
-            <th>육개장</th>
-            <th>김치비빔국수</th>
-            <th>생선까스</th>
-            <th>고구마치즈돈까스</th>
-            <th>치즈돈까스</th>
-            <th>등심돈까스</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>3,000원</td>
-            <td>8,000원</td>
-            <td>7,000원</td>
-            <td>7,000원</td>
-            <td>8,000원</td>
-            <td>6,500원</td>
-            <td>8,000원</td>
-            <td>9,000원</td>
-            <td>8,500원</td>
-            <td>8,000원</td>
-          </tr>
-        </tbody>
-      </table>
+    <div className="menu-container">
+      <h1 className="menu-title">마이리솔 메뉴</h1>
+      <div className="menu-grid">
+        {menuItems.map((item, index) => (
+          <div className="menu-card" key={index}>
+            <h2 className="menu-name">{item.name}</h2>
+            <p className="menu-price">{item.price}</p>
+          </div>
+        ))}
+      </div>
     </div>
-    <button onClick={goBack}>이전으로</button>
-     </div>
   );
 };
 

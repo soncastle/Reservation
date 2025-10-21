@@ -1,0 +1,15 @@
+.header-button {
+background-color: lab(86.36% 9.54 33.04); /* 파란색 배경 */
+color: rgb(65, 65, 65);              /* 글자색 */
+padding: 8px 16px;         /* 안쪽 여백 */
+border-radius: 10px;     /* 완전히 동그랗게 */
+border-color: lab(80.99% 8.43 30.28);
+cursor: pointer;           /* 마우스 올리면 손모양 */
+font-weight: bold;
+transition: background-color 0.3s ease;
+}
+
+.header-button:hover{
+    background-color: lab(77.24% 8.07 29.29);
+    border-color: lab(65.23% 6.53 24.44);
+}
