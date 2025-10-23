@@ -25,7 +25,7 @@ const IntroducePage = () => {
 </div>
 <hr/>
 <h3 className='mt-4 mb-3 text-4xl'>좌석 배치도</h3>
-<img src="/images/seats.png" className='w-full'/>
+<img src="/images/seats.png" className='w-[65%]'/>
     </div>
   )
 }
