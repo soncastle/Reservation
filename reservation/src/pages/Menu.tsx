@@ -8,15 +8,15 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   { name: '야채 토스트', price: '3,000원' },
-  { name: '돌솥비빔밥', price: '8,000원' },
-  { name: '야채비빔밥', price: '7,000원' },
+  { name: '옛날 도시락', price: '8,000원' },
+  { name: '감자전', price: '7,000원' },
   { name: '된장찌개', price: '7,000원' },
   { name: '육개장', price: '8,000원' },
-  { name: '김치비빔국수', price: '6,500원' },
-  { name: '생선까스', price: '8,000원' },
-  { name: '고구마치즈돈까스', price: '9,000원' },
-  { name: '치즈돈까스', price: '8,500원' },
-  { name: '등심돈까스', price: '8,000원' },
+  { name: '두부김치', price: '11,500원' },
+  { name: '파인애플 샤베트', price: '8,000원' },
+  { name: '탕수육', price: '9,000원' },
+  { name: '모듬튀김', price: '8,500원' },
+  { name: '닭껍질튀김', price: '8,000원' },
   { name: '소주', price: '4,000원' },
   { name: '생맥주', price: '4,000원' },
 ];
