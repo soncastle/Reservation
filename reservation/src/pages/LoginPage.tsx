@@ -1,14 +1,34 @@
 import React, { useState } from "react";
 import "../styles/LoginPage.css";
+import axios from "axios";
+import { useGoHomeAndMenu } from "../hooks/useGo";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const {goHome} = useGoHomeAndMenu();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("로그인 시도:", { email, password });
     // 👉 실제 로그인 로직(API 연동) 추가 필요
+
+    try{
+      const response = await axios.post("http://localhost:8080/api/user/login", {
+        email,
+        password,
+      },
+      {
+        withCredentials: true,
+      });
+      alert("로그인 성공");
+      console.log(response.data);
+      goHome();
+      window.location.reload();
+    }catch (error){
+        console.log(error);
+        alert("로그인 실패")
+      }
   };
 
   return (

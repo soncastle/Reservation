@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import "../styles/SignUpPage.css";
 import axios from "axios";
+import { useGoHomeAndMenu, useGoLoginPage } from "../hooks/useGo";
 
 const SignUpPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-
+  const {goLoginPage} = useGoLoginPage();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -23,6 +24,7 @@ const SignUpPage: React.FC = () => {
       password,
     });
     alert("회원가입 성공!");
+    goLoginPage();
     console.log(response.data);
   } catch (error) {
     console.error(error);

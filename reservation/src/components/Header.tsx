@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../styles/Header.css'
 import '../styles/Tailwind.css'
 import { useLocation } from 'react-router-dom';
 import { useGoHomeAndMenu, useGoIntroducePage, useGoLoginPage, useGoMainPage, useGoMap, useGoShowMoviceList, useGoSignUpPage } from '../hooks/useGo';
+import axios from 'axios';
 
 const Header = () => {
     const imagePath: string = '/images/logo.png';
@@ -12,6 +13,40 @@ const Header = () => {
     const {goSignUpPage} = useGoSignUpPage();
     const {goIntroducePage} = useGoIntroducePage();
     const location = useLocation(); 
+
+const [isLogin, setIsLogin] = useState(false);
+
+    useEffect(() => {
+      const checkLogin = async () => {
+        try {
+          const response = await axios.get("http://localhost:8080/api/user/me", {
+            withCredentials: true,
+          });
+          if (response.status === 200) {
+            setIsLogin(true);
+          }
+        } catch {
+          setIsLogin(false);
+        }
+      };
+      checkLogin();
+    }, []);
+
+    const handleLogout = async() => {
+      try{
+      await axios.post("http://localhost:8080/api/user/logout", {}, {withCredentials : true});
+        alert("로그아웃되었습니다.")
+        setIsLogin(false);
+        window.location.reload();
+    }catch (error){
+      console.log(error);
+      alert("로그아웃 실패");
+    }
+    }
+    
+
+
+
   return (
     <div>
         <img className='w-80 mt-1' src={imagePath} alt="Header Image"></img>
@@ -24,10 +59,17 @@ const Header = () => {
         <button className='header-button' onClick={goMenu}>솔 음식</button>)}
         {location.pathname !== "/MovieList" &&(
         <button className='header-button' onClick={goMoviceList}>솔이 영화</button>)}
-        {location.pathname !== "/LoginPage" &&(
-          <button className='header-button' onClick={goLoginPage}>로그인</button>)}
-        {location.pathname !== "/SignUpPage" &&(
-          <button className='header-button' onClick={goSignUpPage}>회원가입</button>)}
+
+
+          {!isLogin ? (
+            <>    {location.pathname !== "/LoginPage" &&(
+                     <button className='header-button' onClick={goLoginPage}>로그인</button>)}
+                  {location.pathname !== "/SignUpPage" &&(
+                     <button className='header-button' onClick={goSignUpPage}>회원가입</button>)}
+            </>
+                  ) : (
+                     <button className='header-button' onClick={handleLogout}>로그아웃</button>
+                )}
           </div>
     </div>
   )

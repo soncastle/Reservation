@@ -1,12 +1,11 @@
 package com.reservation.movie.user.userDto;
 
 import com.reservation.movie.user.model.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -15,11 +14,18 @@ public class UserDto {
     private String password;
     private String userName;
 
-    public User toEntity() {
+    public User toEntity(PasswordEncoder passwordEncoder) {
         return User.builder()
                 .email(this.email)
-                .password(this.password)
+                .password(passwordEncoder.encode(this.password))
                 .userName(this.userName)
+                .build();
+    }
+
+    public static UserDto fromEntity(User user) {
+        return UserDto.builder()
+                .email(user.getEmail())
+                .userName(user.getUserName())
                 .build();
     }
 }
