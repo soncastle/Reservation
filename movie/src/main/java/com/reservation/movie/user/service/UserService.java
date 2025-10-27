@@ -3,7 +3,9 @@ package com.reservation.movie.user.service;
 import com.reservation.movie.user.model.User;
 import com.reservation.movie.user.repository.UserRepository;
 import com.reservation.movie.user.userDto.UserDto;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,15 +27,26 @@ public class UserService {
         }
 
         User user = userDto.toEntity(passwordEncoder); // 비밀번호 암호화
+        user.setRole("user");
         userRepository.save(user);
         return "저장완료";
     }
 
     public User login(String email, String password){
-
         return userRepository.findByEmail(email)
                 .filter(user -> passwordEncoder.matches(password, user.getPassword()))
                 .orElse(null);
     }
 
+    public UserDto checkUserSession(HttpSession session){
+        User user = (User) session.getAttribute("user");
+
+        // 2️⃣ 세션이 비어있으면 null 반환
+        if (user == null) {
+            return null;
+        }
+
+        // 3️⃣ UserDto로 변환해서 반환
+        return UserDto.fromEntity(user);
+    }
 }

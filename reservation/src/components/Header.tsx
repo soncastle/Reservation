@@ -19,7 +19,7 @@ const [isLogin, setIsLogin] = useState(false);
     useEffect(() => {
       const checkLogin = async () => {
         try {
-          const response = await axios.get("http://localhost:8080/api/user/me", {
+          const response = await axios.get("http://localhost:8080/api/user/checkSession", {
             withCredentials: true,
           });
           if (response.status === 200) {

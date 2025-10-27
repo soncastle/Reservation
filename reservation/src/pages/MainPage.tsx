@@ -1,9 +1,4 @@
-import React from 'react'
 import '../styles/Tailwind.css'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import { Link, useNavigate } from 'react-router-dom'
-import { useGoHomeAndMenu, useGoIntroducePage, useGoLoginPage, useGoMap, useGoShowMoviceList, useGoSignUpPage } from '../hooks/useGo'
 
 
 const MainPage = () => {

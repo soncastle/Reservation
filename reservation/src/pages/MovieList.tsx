@@ -29,6 +29,7 @@ const MovieList = () => {
               language: "ko-KR",
               region: "KR",
             },
+            withCredentials: false,
           }
         );
         setMovies(response.data.results);

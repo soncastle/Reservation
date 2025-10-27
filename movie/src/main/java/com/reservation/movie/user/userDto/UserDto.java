@@ -13,12 +13,14 @@ public class UserDto {
     private String email;
     private String password;
     private String userName;
+    private String role;
 
     public User toEntity(PasswordEncoder passwordEncoder) {
         return User.builder()
                 .email(this.email)
                 .password(passwordEncoder.encode(this.password))
                 .userName(this.userName)
+                .role(this.role)
                 .build();
     }
 
@@ -26,6 +28,7 @@ public class UserDto {
         return UserDto.builder()
                 .email(user.getEmail())
                 .userName(user.getUserName())
+                .role(user.getRole())
                 .build();
     }
 }

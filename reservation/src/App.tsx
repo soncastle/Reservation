@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
 import MainPage from './pages/MainPage';
@@ -11,14 +10,26 @@ import SeatsReservation from './pages/SeatsReservation';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import IntroducePage from './pages/IntroducePage';
+import UserMyPage from './pages/user/UserMyPage';
+import { useAuth } from "./hooks/useAuth";
+import UserSider from "./components/UserSider";
+import ManagerSider from "./components/ManagerSider";
 
 function App() {
+  const {isLoggedIn} = useAuth();
+  const userRole = localStorage.getItem("role")
   return (
     <div className="App">
       <div className='backGroundColor'>
-
       <BrowserRouter>
             <Header/>
+            {isLoggedIn &&(
+              <>
+                {userRole === "USER" && <UserSider/>}
+                {userRole === "MANAGER" && <ManagerSider/>}  
+              </>
+            )}
+            
       <hr />
         <Routes>
           <Route path="/" element={<MainPage/>} />
