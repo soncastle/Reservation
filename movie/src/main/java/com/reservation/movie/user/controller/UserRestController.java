@@ -61,8 +61,4 @@ public class UserRestController {
         return userService.createUser(userdto);
     }
 
-
-
-
 }
-

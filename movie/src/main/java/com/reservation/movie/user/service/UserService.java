@@ -40,7 +40,7 @@ public class UserService {
 
     public UserDto checkUserSession(HttpSession session){
         User user = (User) session.getAttribute("user");
-
+        System.out.println("유저!" + user);
         // 2️⃣ 세션이 비어있으면 null 반환
         if (user == null) {
             return null;

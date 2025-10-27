@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import '../styles/Header.css'
 import '../styles/Tailwind.css'
 import { useLocation } from 'react-router-dom';
-import { useGoHomeAndMenu, useGoIntroducePage, useGoLoginPage, useGoMainPage, useGoMap, useGoShowMoviceList, useGoSignUpPage } from '../hooks/useGo';
+import { useGoHomeAndMenu, useGoIntroducePage, useGoLoginPage, useGoMainPage, useGoMap, useGoMyPage, useGoShowMoviceList, useGoSignUpPage } from '../hooks/useGo';
 import axios from 'axios';
 
 const Header = () => {
@@ -13,6 +13,7 @@ const Header = () => {
     const {goSignUpPage} = useGoSignUpPage();
     const {goIntroducePage} = useGoIntroducePage();
     const location = useLocation(); 
+    const {goMyPage} = useGoMyPage();
 
 const [isLogin, setIsLogin] = useState(false);
 
@@ -67,8 +68,11 @@ const [isLogin, setIsLogin] = useState(false);
                   {location.pathname !== "/SignUpPage" &&(
                      <button className='header-button' onClick={goSignUpPage}>회원가입</button>)}
             </>
-                  ) : (
+                ) : (
+                  <>
+                    <button className='header-button' onClick={goMyPage}>마이페이지</button>
                      <button className='header-button' onClick={handleLogout}>로그아웃</button>
+                     </>
                 )}
           </div>
     </div>

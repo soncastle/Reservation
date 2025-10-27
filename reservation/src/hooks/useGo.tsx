@@ -67,3 +67,13 @@ export const useGoIntroducePage = () => {
     }
     return {goIntroducePage};
 }
+
+export const useGoMyPage = () => {
+    const navigate = useNavigate();
+    const goMyPage = () => {
+        navigate('/MyPage');
+    }
+    return {goMyPage};
+}
+
+

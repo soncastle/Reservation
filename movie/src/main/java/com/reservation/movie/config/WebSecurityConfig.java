@@ -21,10 +21,13 @@ public class WebSecurityConfig {
                 .formLogin(form -> form.disable())
                 .httpBasic(basic -> basic.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/user/login",
+                        .requestMatchers(
+                            "/api/user/login",
                                 "/api/user/signup",
-                                "/api/user/me"
-                                ,"/api/user/logout").permitAll()
+                                "/api/user/checkSession",
+                                "/api/user/logout",
+                                "/api/reservation/movie",
+                                "/api/reservation/seats/{movieId}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout

@@ -10,10 +10,8 @@ import SeatsReservation from './pages/SeatsReservation';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import IntroducePage from './pages/IntroducePage';
-import UserMyPage from './pages/user/UserMyPage';
 import { useAuth } from "./hooks/useAuth";
-import UserSider from "./components/UserSider";
-import ManagerSider from "./components/ManagerSider";
+import MyPage from "./pages/MyPage";
 
 function App() {
   const {isLoggedIn} = useAuth();
@@ -23,12 +21,6 @@ function App() {
       <div className='backGroundColor'>
       <BrowserRouter>
             <Header/>
-            {isLoggedIn &&(
-              <>
-                {userRole === "USER" && <UserSider/>}
-                {userRole === "MANAGER" && <ManagerSider/>}  
-              </>
-            )}
             
       <hr />
         <Routes>
@@ -40,6 +32,7 @@ function App() {
           <Route path="/loginPage" element={<LoginPage/>}/>
           <Route path='/signuppage' element={<SignUpPage/>}/>
           <Route path='/introducepage' element={<IntroducePage/>}/>
+          <Route path="/mypage" element={<MyPage/>}/>
         </Routes>
               <hr />
       <Footer/>
