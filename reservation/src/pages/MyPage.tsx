@@ -7,22 +7,18 @@ import { useGoBack } from "../hooks/useGo";
 axios.defaults.withCredentials = true;
 
 function MyPage() {
-  const { movieId } = useParams();
+const { movieId } = useParams();
   const location = useLocation();
   const { title } = location.state || {};
 
   const totalSeats = 8;
-  const { goBack } = useGoBack();
 
   const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
   const [reservedSeats, setReservedSeats] = useState<number[]>([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userReservation, setUserReservation] = useState<{
-    movieTitle: string;
-    seatNumbers: number[];
-  } | null>(null);
+  const { goBack } = useGoBack();
 
-  // ✅ 세션 확인
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   useEffect(() => {
     const checkSession = async () => {
       try {
@@ -37,34 +33,7 @@ function MyPage() {
     checkSession();
   }, []);
 
-  // ✅ 로그인된 유저의 예약 현황 불러오기
-  useEffect(() => {
-    const fetchUserReservation = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/api/reservation/my-reservation", {
-          withCredentials: true,
-        });
 
-        if (response.data) {
-          setUserReservation({
-            movieTitle: response.data.movieTitle,
-            seatNumbers: response.data.seatNumbers,
-          });
-        } else {
-          setUserReservation(null);
-        }
-      } catch (error) {
-        console.error("예약 정보 조회 실패", error);
-        setUserReservation(null);
-      }
-    };
-
-    if (isLoggedIn) {
-      fetchUserReservation();
-    }
-  }, [isLoggedIn]);
-
-  // ✅ 이미 예약된 좌석 가져오기
   useEffect(() => {
     const fetchReservedSeats = async () => {
       try {
@@ -79,7 +48,6 @@ function MyPage() {
     fetchReservedSeats();
   }, [movieId]);
 
-  // ✅ 좌석 선택
   const toggleSeat = (seatId: number) => {
     if (reservedSeats.includes(seatId)) return;
     setSelectedSeats((prev) =>
@@ -89,7 +57,6 @@ function MyPage() {
     );
   };
 
-  // ✅ 예약하기
   const handleReservation = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -104,20 +71,19 @@ function MyPage() {
     }
 
     try {
-      await axios.post(
-        "http://localhost:8080/api/reservation/movie",
-        {
-          movieId,
-          movieTitle: title,
-          seatNumbers: selectedSeats,
-        },
-        { withCredentials: true }
-      );
+      await axios.post("http://localhost:8080/api/reservation/movie", {
+        movieId,
+        movieTitle: title,
+        seatNumbers: selectedSeats,
+      });
 
-      alert(`예약 완료! 🍽️ 식당: ${title}, 좌석 번호: ${selectedSeats.join(", ")}`);
+      alert(
+        `예약 완료! 🍽️ 식당: ${title}, 좌석 번호: ${selectedSeats.join(", ")}`
+      );
 
       setReservedSeats((prev) => [...prev, ...selectedSeats]);
       setSelectedSeats([]);
+      
     } catch (error) {
       alert("예약 실패!");
       console.error(error);
@@ -127,14 +93,10 @@ function MyPage() {
   return (
     <div className="restaurant">
       <h1>좌석 예약</h1>
-
-      {userReservation ? (
-        <h2>🎟️ {userReservation.movieTitle} / 예약 좌석: {userReservation.seatNumbers.join(", ")}</h2>
-      ) : (
-        <h2>예약현황 없음</h2>
-      )}
-
-      <div className="screen-label">🎬 SCREEN</div>
+      <h2>{title ? title : `가게 ID: ${movieId}`}</h2>
+        <div className="screen-label">
+        🎬 SCREEN
+        </div>
 
       <div className="table-grid">
         {Array.from({ length: totalSeats }, (_, i) => {
@@ -151,9 +113,9 @@ function MyPage() {
               onClick={() => toggleSeat(seatId)}
             >
               <div className="chair top"></div>
-              <div className="chairSide left" />
+              <div className="chairSide left"/>
               <div className="table">{seatId}</div>
-              <div className="chairSide right" />
+              <div className="chairSide right"/>
               <div className="chair bottom"></div>
             </div>
           );
@@ -171,5 +133,6 @@ function MyPage() {
     </div>
   );
 }
+
 
 export default MyPage;

@@ -1,4 +1,4 @@
-package com.reservation.movie.reservationDto;
+package com.reservation.movie.reservation.reservationDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,9 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ReservationDto {
-  private  int movieId;
+  private int movieId;
   private String movieTitle;
   private List<Integer> seatNumbers;
-//  private String email;
-
+  private String email;
 }

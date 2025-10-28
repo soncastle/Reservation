@@ -1,14 +1,17 @@
 package com.reservation.movie.user.service;
 
+import com.reservation.movie.reservation.model.Seats;
+import com.reservation.movie.reservation.repository.SeatsRepository;
 import com.reservation.movie.user.model.User;
 import com.reservation.movie.user.repository.UserRepository;
 import com.reservation.movie.user.userDto.UserDto;
+import com.reservation.movie.user.userDto.UserReservationInfoDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -16,6 +19,7 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final SeatsRepository seatsRepository;
 
     public List<User> getAllUser(){
         return userRepository.findAll();
@@ -48,5 +52,16 @@ public class UserService {
 
         // 3️⃣ UserDto로 변환해서 반환
         return UserDto.fromEntity(user);
+    }
+
+    public List<UserReservationInfoDto> userMyReservation(String email){
+        LocalDateTime now = LocalDateTime.now();
+        List<Seats> seatsList = seatsRepository
+                .findAllByEmailAndReservationTimeAfterOrderByReservationTimeAsc(email, now);
+
+        // 엔티티 → DTO 변환
+        return seatsList.stream()
+                .map(UserReservationInfoDto::fromEntity)
+                .toList();
     }
 }

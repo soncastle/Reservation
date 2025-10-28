@@ -1,7 +1,8 @@
 package com.reservation.movie.reservation.controller;
 
 import com.reservation.movie.reservation.service.ReservationService;
-import com.reservation.movie.reservationDto.ReservationDto;
+import com.reservation.movie.reservation.reservationDto.ReservationDto;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,4 +24,5 @@ public class ReservationRestController {
     System.out.println(reservationService.findAllSeatNumbers(movieId));
     return reservationService.findAllSeatNumbers(movieId);
   }
+
 }

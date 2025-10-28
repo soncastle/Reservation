@@ -3,6 +3,8 @@ package com.reservation.movie.reservation.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "seats")
 @NoArgsConstructor
@@ -23,11 +25,11 @@ public class Seats {
 
     @Column(name="movie_id")
     private int movieId;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "movie_id")
-//    private Movie movie;
-//
+
+    private String email;
+
+    private LocalDateTime reservationTime;
+
     @ManyToOne
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;

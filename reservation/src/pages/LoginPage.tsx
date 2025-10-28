@@ -21,8 +21,10 @@ const LoginPage: React.FC = () => {
       {
         withCredentials: true,
       });
+      const userData = response.data;
       alert("로그인 성공");
       console.log(response.data);
+      localStorage.setItem("userEmail", userData.email);
       goHome();
       window.location.reload();
     }catch (error){
