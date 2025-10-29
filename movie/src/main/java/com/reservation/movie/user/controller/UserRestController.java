@@ -2,6 +2,7 @@ package com.reservation.movie.user.controller;
 
 import com.reservation.movie.user.model.CustomUserDetails;
 import com.reservation.movie.user.model.User;
+import com.reservation.movie.user.service.AuthService;
 import com.reservation.movie.user.service.UserService;
 import com.reservation.movie.user.userDto.LoginRequestDto;
 import com.reservation.movie.user.userDto.UserDto;
@@ -25,30 +26,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserRestController {
     private final UserService userService;
+    private final AuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto request, HttpServletRequest req) {
-        User user = userService.login(request.getEmail(), request.getPassword());
-        if (user == null) {
+        boolean success = authService.login(request.getEmail(), request.getPassword(), req);
+
+        if (!success) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
         }
-
-        CustomUserDetails userDetails = new CustomUserDetails(user);
-
-        // ✅ 인증 객체 생성
-        Authentication auth = new UsernamePasswordAuthenticationToken(
-                userDetails, null, userDetails.getAuthorities()
-        );
-
-        // ✅ SecurityContext 생성 및 등록
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        context.setAuthentication(auth);
-        SecurityContextHolder.setContext(context);
-
-        // ✅ 세션에 SPRING_SECURITY_CONTEXT 등록
-        HttpSession session = req.getSession(true);
-        session.setAttribute("SPRING_SECURITY_CONTEXT", context);
-        session.setAttribute("user", user);
 
         return ResponseEntity.ok("로그인 성공");
     }
