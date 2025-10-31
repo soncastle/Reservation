@@ -16,12 +16,10 @@ public class ReservationRestController {
 
   @PostMapping("/movie")
   String reservationMovie(@RequestBody ReservationDto reservationDto){
-    System.out.println(reservationDto);
     return reservationService.reservationMovie(reservationDto);
   }
   @GetMapping("/seats/{movieId}")
   public List<Integer> findAllSeatNumbers(@PathVariable int movieId){
-    System.out.println(reservationService.findAllSeatNumbers(movieId));
     return reservationService.findAllSeatNumbers(movieId);
   }
 

@@ -1,10 +1,9 @@
 package com.reservation.movie.user.userDto;
 
-import com.reservation.movie.reservation.model.Seats;
+import com.reservation.movie.reservation.model.Reservation;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -27,13 +26,13 @@ public class UserReservationInfoDto {
                 .seatNumbers(this.seatNumbers)
                 .build();
     }
-    public static UserReservationInfoDto fromEntity(Seats seats) {
+    public static UserReservationInfoDto fromEntity(Reservation reservation) {
         return UserReservationInfoDto.builder()
-                .email(seats.getEmail())
-                .movieTitle(seats.getMovieTitle())
-                .movieId(seats.getMovieId())
-                .seatNumbers(List.of(seats.getSeatNumbers()))
-                .reservationTime(seats.getReservationTime())
+                .email(reservation.getEmail())
+                .movieTitle(reservation.getMovieTitle())
+                .movieId(reservation.getMovieId())
+                .seatNumbers(List.of(reservation.getSeatNumbers()))
+                .reservationTime(reservation.getReservationTime())
                 .build();
     }
 

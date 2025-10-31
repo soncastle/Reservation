@@ -1,7 +1,7 @@
 package com.reservation.movie.user.service;
 
-import com.reservation.movie.reservation.model.Seats;
-import com.reservation.movie.reservation.repository.SeatsRepository;
+import com.reservation.movie.reservation.model.Reservation;
+import com.reservation.movie.reservation.repository.ReservationRepository;
 import com.reservation.movie.user.model.User;
 import com.reservation.movie.user.repository.UserRepository;
 import com.reservation.movie.user.userDto.UserDto;
@@ -19,7 +19,7 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final SeatsRepository seatsRepository;
+    private final ReservationRepository reservationRepository;
 
     public List<User> getAllUser(){
         return userRepository.findAll();
@@ -56,11 +56,11 @@ public class UserService {
 
     public List<UserReservationInfoDto> userMyReservation(String email){
         LocalDateTime now = LocalDateTime.now();
-        List<Seats> seatsList = seatsRepository
+        List<Reservation> reservationList = reservationRepository
                 .findAllByEmailAndReservationTimeAfterOrderByReservationTimeAsc(email, now);
 
         // 엔티티 → DTO 변환
-        return seatsList.stream()
+        return reservationList.stream()
                 .map(UserReservationInfoDto::fromEntity)
                 .toList();
     }

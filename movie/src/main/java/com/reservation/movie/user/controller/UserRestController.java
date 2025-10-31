@@ -43,13 +43,11 @@ public class UserRestController {
     public ResponseEntity<?> checkUserSession(HttpSession session) {
         UserDto userDto = userService.checkUserSession(session);
 
-        // ✅ 세션이 없거나 로그인 안 되어 있으면 401
         if (userDto == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("세션이 만료되었거나 로그인 상태가 아닙니다.");
         }
 
-        // ✅ 세션이 유효하면 사용자 정보 반환
         return ResponseEntity.ok(userDto);
     }
 
@@ -73,7 +71,6 @@ public class UserRestController {
     public ResponseEntity<?> userMyReservation(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            System.out.println("❌ 세션에 user 없음");
             return null;
         }
         String email = user.getEmail();

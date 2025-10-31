@@ -12,7 +12,6 @@ const SignUpPage: React.FC = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const { goLoginPage } = useGoLoginPage();
 
-  /** ✅ 이메일 정규식 검사 */
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
@@ -24,7 +23,6 @@ const SignUpPage: React.FC = () => {
     return regex.test(password);
   };
 
-  /** ✅ 유효성 검사 전체 */
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
 
@@ -47,7 +45,6 @@ const SignUpPage: React.FC = () => {
     return Object.keys(newErrors).length === 0; // 에러 없으면 true
   };
 
-  /** ✅ 제출 이벤트 */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
