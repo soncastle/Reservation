@@ -44,20 +44,17 @@ public class UserService {
 
     public UserDto checkUserSession(HttpSession session){
         User user = (User) session.getAttribute("user");
-        System.out.println("유저!" + user);
-        // 2️⃣ 세션이 비어있으면 null 반환
         if (user == null) {
             return null;
         }
 
-        // 3️⃣ UserDto로 변환해서 반환
         return UserDto.fromEntity(user);
     }
 
-    public List<UserReservationInfoDto> userMyReservation(String email){
+    public List<UserReservationInfoDto> userReservation(String email){
         LocalDateTime now = LocalDateTime.now();
         List<Reservation> reservationList = reservationRepository
-                .findAllByEmailAndReservationTimeAfterOrderByReservationTimeAsc(email, now);
+                .findAllByEmailOrderByReservationTimeDesc(email);
 
         // 엔티티 → DTO 변환
         return reservationList.stream()

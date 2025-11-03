@@ -16,7 +16,7 @@ public class UserReservationInfoDto {
     private String movieTitle;
     private int movieId;
     private List<Integer> seatNumbers;
-    private LocalDateTime reservationTime;
+    private String reservationTime;
 
 
     public UserReservationInfoDto toEntity(){

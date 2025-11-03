@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -24,14 +25,17 @@ public class ReservationService {
     }else{
       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
       String email = auth.getName();
-      LocalDateTime ReservationTime = LocalDateTime.now();
+
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+      String formattedTime = LocalDateTime.now().format(formatter);
+
       List<Reservation> reservationList = reservationDto.getSeatNumbers().stream()
           .map(num -> Reservation.builder()
               .seatNumbers(num)
               .movieId(reservationDto.getMovieId())
               .movieTitle(reservationDto.getMovieTitle())
               .email(email)
-              .reservationTime(ReservationTime)
+              .reservationTime(formattedTime)
               .build())
           .toList();
       reservationRepository.saveAll(reservationList);

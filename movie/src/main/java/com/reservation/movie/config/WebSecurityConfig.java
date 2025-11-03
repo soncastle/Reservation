@@ -28,7 +28,7 @@ public class WebSecurityConfig {
                                 "/api/user/logout",
                                 "/api/reservation/movie",
                                 "/api/reservation/seats/{movieId}",
-                                "/api/user/my-reservation").permitAll()
+                                "/api/user/userReservation").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout

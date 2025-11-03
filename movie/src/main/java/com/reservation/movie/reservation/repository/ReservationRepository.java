@@ -16,6 +16,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
   @Query("SELECT s.seatNumbers FROM Reservation s WHERE s.movieId = :movieId")
   List<Integer> findSeatNumbersByMovieId(@Param("movieId") int movieId);
 
-  List<Reservation> findAllByEmailAndReservationTimeAfterOrderByReservationTimeAsc(String email, LocalDateTime now);
+  List<Reservation> findAllByEmailOrderByReservationTimeDesc(String email);
 }
 

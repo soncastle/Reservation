@@ -47,7 +47,6 @@ public class UserRestController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("세션이 만료되었거나 로그인 상태가 아닙니다.");
         }
-
         return ResponseEntity.ok(userDto);
     }
 
@@ -67,18 +66,20 @@ public class UserRestController {
         return userService.createUser(userdto);
     }
 
-    @GetMapping("/my-reservation")
-    public ResponseEntity<?> userMyReservation(HttpSession session) {
+    @GetMapping("/userReservation")
+    public ResponseEntity<?> userReservation(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            return null;
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("로그인 정보가 없습니다.");
         }
         String email = user.getEmail();
-        List<UserReservationInfoDto> result = userService.userMyReservation(email);
+        List<UserReservationInfoDto> result = userService.userReservation(email);
 
         if (result.isEmpty()) {
             return ResponseEntity.ok("예약 내역이 없습니다.");
         }
+        System.out.println(result);
         return ResponseEntity.ok(result);
     }
 }

@@ -28,6 +28,6 @@ public class Reservation {
 
     private String email;
 
-    private LocalDateTime reservationTime;
+    private String reservationTime;
 
 }

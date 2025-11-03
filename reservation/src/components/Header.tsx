@@ -16,6 +16,7 @@ const Header = () => {
     const {goMyPage} = useGoMyPage();
 
 const [isLogin, setIsLogin] = useState(false);
+const [isEmail, setIsEmail] = useState(null);
 
     useEffect(() => {
       const checkLogin = async () => {
@@ -23,8 +24,9 @@ const [isLogin, setIsLogin] = useState(false);
           const response = await axios.get("http://localhost:8080/api/user/checkSession", {
             withCredentials: true,
           });
-          if (response.status === 200) {
+          if (response.data.email)  {
             setIsLogin(true);
+            setIsEmail(response.data.email);
           }
         } catch {
           setIsLogin(false);
@@ -59,7 +61,7 @@ const [isLogin, setIsLogin] = useState(false);
         {location.pathname !== "/Menu" &&(
         <button className='header-button' onClick={goMenu}>솔 음식</button>)}
         {location.pathname !== "/MovieList" &&(
-        <button className='header-button' onClick={goMoviceList}>솔이 영화</button>)}
+        <button className='header-button' onClick={goMoviceList}>솔 영화</button>)}
 
 
           {!isLogin ? (
