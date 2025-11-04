@@ -53,10 +53,9 @@ public class UserService {
 
     public List<UserReservationInfoDto> userReservation(String email){
         LocalDateTime now = LocalDateTime.now();
-        List<Reservation> reservationList = reservationRepository
-                .findAllByEmailOrderByReservationTimeDesc(email);
+        List<Reservation> reservationList = reservationRepository.findAllByEmailOrderByReservationTimeDesc(email);
 
-        // 엔티티 → DTO 변환
+
         return reservationList.stream()
                 .map(UserReservationInfoDto::fromEntity)
                 .toList();

@@ -29,16 +29,19 @@ public class ReservationService {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
       String formattedTime = LocalDateTime.now().format(formatter);
 
-      List<Reservation> reservationList = reservationDto.getSeatNumbers().stream()
-          .map(num -> Reservation.builder()
-              .seatNumbers(num)
+      List<Integer> sortedSeats = reservationDto.getSeatNumbers().stream()
+              .sorted()
+              .toList();
+
+      Reservation reservation = Reservation.builder()
               .movieId(reservationDto.getMovieId())
               .movieTitle(reservationDto.getMovieTitle())
               .email(email)
+              .seatNumbers(sortedSeats)
               .reservationTime(formattedTime)
-              .build())
-          .toList();
-      reservationRepository.saveAll(reservationList);
+              .build();
+
+      reservationRepository.save(reservation);
       return "예약되었습니다.";
     }
     }

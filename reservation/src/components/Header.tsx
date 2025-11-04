@@ -40,7 +40,7 @@ const [isEmail, setIsEmail] = useState(null);
       await axios.post("http://localhost:8080/api/user/logout", {}, {withCredentials : true});
         alert("로그아웃되었습니다.")
         setIsLogin(false);
-        window.location.reload();
+        goHome();
     }catch (error){
       console.log(error);
       alert("로그아웃 실패");

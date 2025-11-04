@@ -76,3 +76,7 @@
 .cancel {
   background: #ddd;
 }
+
+.movie-poster {
+ height: 40vh;
+}

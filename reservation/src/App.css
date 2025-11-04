@@ -10,6 +10,10 @@ html, body, #root {
   height: 100%;
 }
 
+.main-content {
+  min-height: 60vh;
+}
+
 /* App 전체를 화면 꽉 채우기 */
 .App {
   text-align: center;

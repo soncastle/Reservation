@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "Reservation")
@@ -18,8 +19,8 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="seat_numbers")
-    private int seatNumbers;
+    @ElementCollection
+    private List<Integer> seatNumbers;
 
     private String movieTitle;
 

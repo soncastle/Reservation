@@ -67,7 +67,7 @@ useEffect(() => {
                 <tr key={respone.reservationTime} className="hover:bg-gray-50">
                   <td className="border px-4 py-2">{respone.movieTitle}</td>
                   <td className="border px-4 py-2">{respone.seatNumbers}</td>
-                  <td className="border px-4 px-2">{respone.reservationTime}</td>
+                  <td className="border px-4 py-2">{respone.reservationTime}</td>
                 </tr>
               ))
             ) :(

@@ -32,7 +32,12 @@ const MovieList = () => {
             withCredentials: false,
           }
         );
-        setMovies(response.data.results);
+
+        const sortedMovies = response.data.results.sort(
+          (a : Movie, b : Movie) =>
+          new Date(b.release_date).getTime() - new Date(a.release_date).getTime()
+        )
+        setMovies(sortedMovies);
       } catch (err) {
         setError("영화 정보를 불러오는 데 실패했습니다.");
       } finally {

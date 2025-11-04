@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -15,7 +16,7 @@ public class UserReservationInfoDto {
     private String email;
     private String movieTitle;
     private int movieId;
-    private List<Integer> seatNumbers;
+    private String seatNumbers;
     private String reservationTime;
 
 
@@ -31,7 +32,12 @@ public class UserReservationInfoDto {
                 .email(reservation.getEmail())
                 .movieTitle(reservation.getMovieTitle())
                 .movieId(reservation.getMovieId())
-                .seatNumbers(List.of(reservation.getSeatNumbers()))
+                .seatNumbers(
+                        reservation.getSeatNumbers().stream()
+                                .sorted()
+                                .map(String::valueOf)
+                                .collect(Collectors.joining(", ")) // ✅ 대괄호 없이 "2, 3, 4" 형태
+                )
                 .reservationTime(reservation.getReservationTime())
                 .build();
     }

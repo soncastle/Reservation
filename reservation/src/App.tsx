@@ -23,6 +23,8 @@ function App() {
             <Header/>
             
       <hr />
+
+      <div className="main-content">
         <Routes>
           <Route path="/" element={<MainPage/>} />
           <Route path="/SeatsReservation/:movieId" element={<SeatsReservation />} />
@@ -34,6 +36,7 @@ function App() {
           <Route path='/introducepage' element={<IntroducePage/>}/>
           <Route path="/mypage" element={<MyPage/>}/>
         </Routes>
+        </div>
               <hr />
       <Footer/>
       </BrowserRouter>
