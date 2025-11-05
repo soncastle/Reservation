@@ -12,7 +12,6 @@ type ReservationInfo = {
 }
 
 function MyPage() {
-  const {goHome} = useGoHomeAndMenu();
   const [isEmail, setIsEmail] = useState(null);
   const [isReservationData, setReservationData] = useState<ReservationInfo[]>([]); 
   // const [ReservationInfo, setReservationInfo] = useState<ReservationInfo>({
@@ -20,7 +19,6 @@ function MyPage() {
   //   reservationTime : null,
   //   reservationSeats : null
   // });
-
 
 useEffect(() => {
   const checkSession = async () => {
@@ -44,7 +42,12 @@ useEffect(() => {
   };
   checkSession();
 }, []); //안넣어도 되지만 내부에 외부함수를 사용하였으므로, 랜더링즉시 실행되는 useEffect가 변화를 감지하여 다시 실행될 수 있도록 안전상 넣어둔 것.
+const handleCancel = async (reservationTime : string) => {
+  try{
+    const respone = await axios.get("http://localhost:8080/api/user/cancel")
+  }
 
+}
 
   return (
     <div>
@@ -59,6 +62,7 @@ useEffect(() => {
               <th className="border px-4 py-2">영화 제목</th>
               <th className="border px-4 py-2">좌석 번호</th>
               <th className="border px-4 py-2">예약 시간</th>
+              <th className="border px-4 py-2">예약 상태</th>
             </tr>
           </thead>
           <tbody>
@@ -68,6 +72,7 @@ useEffect(() => {
                   <td className="border px-4 py-2">{respone.movieTitle}</td>
                   <td className="border px-4 py-2">{respone.seatNumbers}</td>
                   <td className="border px-4 py-2">{respone.reservationTime}</td>
+                  <td><button onClick={() => handleCancel(respone.reservationTime!)} className="px-5 py-1 bg-orange-200 text-black rounded hover:bg-orange-800 transition"> 예약 취소</button></td>
                 </tr>
               ))
             ) :(

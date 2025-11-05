@@ -17,6 +17,7 @@ public class ReservationDto {
   private String movieTitle;
   private List<Integer> seatNumbers;
   private String email;
-
+  private String reservationState;
+  private  String cancelTime;
 
 }

@@ -31,4 +31,8 @@ public class Reservation {
 
     private String reservationTime;
 
+    private String cancelTime;
+
+    private String reservationState;
+
 }

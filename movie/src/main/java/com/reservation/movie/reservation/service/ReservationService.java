@@ -2,6 +2,8 @@ package com.reservation.movie.reservation.service;
 import com.reservation.movie.reservation.model.Reservation;
 import com.reservation.movie.reservation.repository.ReservationRepository;
 import com.reservation.movie.reservation.reservationDto.ReservationDto;
+import com.reservation.movie.user.model.User;
+import com.reservation.movie.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.springframework.security.core.Authentication;
@@ -17,6 +19,7 @@ import java.util.List;
 @Builder
 public class ReservationService {
   private final ReservationRepository reservationRepository;
+  private final UserRepository userRepository;
 
   public String reservationMovie(ReservationDto reservationDto){
     boolean exists = reservationRepository.existsBySeatNumbersInAndMovieId(reservationDto.getSeatNumbers(), reservationDto.getMovieId());
@@ -39,12 +42,24 @@ public class ReservationService {
               .email(email)
               .seatNumbers(sortedSeats)
               .reservationTime(formattedTime)
+              .reservationState("예약")
               .build();
 
       reservationRepository.save(reservation);
       return "예약되었습니다.";
     }
     }
+
+  public void reservationCancel(String email, String reservationTime){
+    Reservation reservation  = (Reservation) reservationRepository.findByEmailAndReservationTime(email, reservationTime);
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    String formattedTime = LocalDateTime.now().format(formatter);
+    reservation.setCancelTime(formattedTime);
+    reservation.setReservationState("취소");
+    reservationRepository.save(reservation);
+
+  }
 
   public List<Integer> findAllSeatNumbers(int movieId) {
     return reservationRepository.findSeatNumbersByMovieId(movieId);

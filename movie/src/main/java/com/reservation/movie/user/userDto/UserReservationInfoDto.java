@@ -36,7 +36,7 @@ public class UserReservationInfoDto {
                         reservation.getSeatNumbers().stream()
                                 .sorted()
                                 .map(String::valueOf)
-                                .collect(Collectors.joining(", ")) // ✅ 대괄호 없이 "2, 3, 4" 형태
+                                .collect(Collectors.joining(", "))
                 )
                 .reservationTime(reservation.getReservationTime())
                 .build();
