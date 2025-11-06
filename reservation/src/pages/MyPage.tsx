@@ -20,21 +20,27 @@ function MyPage() {
   //   reservationSeats : null
   // });
 
+const fatchUserReservationData = async () => {
+const userReservionData = await axios.get("http://localhost:8080/api/user/userReservation", {
+        withCredentials: true
+      })
+      if(Array.isArray(userReservionData.data)){
+        setReservationData(userReservionData.data);
+      }
+}
+
+
 useEffect(() => {
   const checkSession = async () => {
     try {
       const response = await axios.get("http://localhost:8080/api/user/checkSession", {
         withCredentials: true
       });
+      await fatchUserReservationData();
       if(response.data){
         setIsEmail(response.data.email);
         }
-      const userReservionData = await axios.get("http://localhost:8080/api/user/userReservation", {
-        withCredentials: true
-      })
-      if(Array.isArray(userReservionData.data)){
-        setReservationData(userReservionData.data);
-      }
+      
       
     } catch {
       alert("로그인 후 이용바랍니다.");
@@ -43,10 +49,16 @@ useEffect(() => {
   checkSession();
 }, []); //안넣어도 되지만 내부에 외부함수를 사용하였으므로, 랜더링즉시 실행되는 useEffect가 변화를 감지하여 다시 실행될 수 있도록 안전상 넣어둔 것.
 const handleCancel = async (reservationTime : string) => {
+ 
   try{
-    const respone = await axios.get("http://localhost:8080/api/user/cancel")
+    await axios.post("http://localhost:8080/api/user/cancel", {
+      reservationTime: reservationTime
+  })
+  alert("취소가 완료되었습니다")
+  await fatchUserReservationData();
+  }catch(error){
+    console.log(error);
   }
-
 }
 
   return (
