@@ -3,6 +3,7 @@ package com.reservation.movie.reservation.controller;
 import com.reservation.movie.reservation.reservationDto.CancelDto;
 import com.reservation.movie.reservation.service.ReservationService;
 import com.reservation.movie.reservation.reservationDto.ReservationDto;
+import com.reservation.movie.user.model.User;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.parameters.P;
@@ -26,13 +27,13 @@ public class ReservationRestController {
     return reservationService.findAllSeatNumbers(movieId);
   }
 
-  @PostMapping("/seats/cancel")
-  String reservationCancel(@RequestBody Map<String, String>data){
-    String email = (String) data.get("email");
-    String movieTitle = (String) data.get("movieTitle");
+  @PostMapping("/movie/cancel")
+  String reservationCancel(@RequestBody Map<String, String> reservationTime, HttpSession session){
+    User user = (User)session.getAttribute("user");
+    String email = user.getEmail();
 
-    reservationService.reservationCancel(email, movieTitle);
-
+    String resTime = reservationTime.get("reservationTime");
+    reservationService.reservationCancel(email, resTime);
     return "";
   }
 }

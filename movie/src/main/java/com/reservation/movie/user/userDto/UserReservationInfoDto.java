@@ -18,6 +18,8 @@ public class UserReservationInfoDto {
     private int movieId;
     private String seatNumbers;
     private String reservationTime;
+    private String cancelTime;
+    private String reservationState;
 
 
     public UserReservationInfoDto toEntity(){
@@ -25,6 +27,7 @@ public class UserReservationInfoDto {
                 .email(this.email)
                 .movieTitle(this.movieTitle)
                 .seatNumbers(this.seatNumbers)
+            .reservationState(this.reservationState)
                 .build();
     }
     public static UserReservationInfoDto fromEntity(Reservation reservation) {
@@ -32,14 +35,15 @@ public class UserReservationInfoDto {
                 .email(reservation.getEmail())
                 .movieTitle(reservation.getMovieTitle())
                 .movieId(reservation.getMovieId())
+                .reservationState(reservation.getReservationState())
+                .cancelTime(reservation.getCancelTime())
+                .reservationTime(reservation.getReservationTime())
                 .seatNumbers(
                         reservation.getSeatNumbers().stream()
                                 .sorted()
                                 .map(String::valueOf)
                                 .collect(Collectors.joining(", "))
                 )
-                .reservationTime(reservation.getReservationTime())
                 .build();
     }
-
 }

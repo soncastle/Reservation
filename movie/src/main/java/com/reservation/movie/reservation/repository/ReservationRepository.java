@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
@@ -20,7 +21,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
   List<Reservation> findAllByEmailOrderByReservationTimeDesc(String email);
 
-  List<Reservation> findByEmailAndReservationTime(String email, String reservationTime);
+ Optional<Reservation> findByEmailAndReservationTime(String email, String reservationTime);
 
 //  @Modifying
 //  @Transactional

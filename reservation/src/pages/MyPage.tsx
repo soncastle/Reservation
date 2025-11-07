@@ -8,7 +8,9 @@ axios.defaults.withCredentials = true;
 type ReservationInfo = {
   movieTitle : string | null,
   reservationTime : string | null,
-  seatNumbers : string | null
+  seatNumbers : string | null,
+  reservationState : String | null,
+  cancelTime : String | null
 }
 
 function MyPage() {
@@ -39,8 +41,7 @@ useEffect(() => {
       await fatchUserReservationData();
       if(response.data){
         setIsEmail(response.data.email);
-        }
-      
+        }      
       
     } catch {
       alert("로그인 후 이용바랍니다.");
@@ -51,7 +52,7 @@ useEffect(() => {
 const handleCancel = async (reservationTime : string) => {
  
   try{
-    await axios.post("http://localhost:8080/api/user/cancel", {
+    await axios.post("http://localhost:8080/api/reservation/movie/cancel", {
       reservationTime: reservationTime
   })
   alert("취소가 완료되었습니다")
@@ -73,7 +74,7 @@ const handleCancel = async (reservationTime : string) => {
             <tr>
               <th className="border px-4 py-2">영화 제목</th>
               <th className="border px-4 py-2">좌석 번호</th>
-              <th className="border px-4 py-2">예약 시간</th>
+              <th className="border px-4 py-2">예약 / 취소 시간</th>
               <th className="border px-4 py-2">예약 상태</th>
             </tr>
           </thead>
@@ -83,8 +84,9 @@ const handleCancel = async (reservationTime : string) => {
                 <tr key={respone.reservationTime} className="hover:bg-gray-50">
                   <td className="border px-4 py-2">{respone.movieTitle}</td>
                   <td className="border px-4 py-2">{respone.seatNumbers}</td>
-                  <td className="border px-4 py-2">{respone.reservationTime}</td>
-                  <td><button onClick={() => handleCancel(respone.reservationTime!)} className="px-5 py-1 bg-orange-200 text-black rounded hover:bg-orange-800 transition"> 예약 취소</button></td>
+                  <td className="border px-4 py-2">{respone.reservationState === "취소"
+                    ? respone.cancelTime : respone.reservationTime}</td>
+                  <td>{respone.reservationState === "취소" ? "취소" : <button onClick={() => handleCancel(respone.reservationTime!)} className="px-5 py-1 bg-orange-200 text-black rounded hover:bg-orange-800 transition"> 예약 취소</button>}</td>
                 </tr>
               ))
             ) :(

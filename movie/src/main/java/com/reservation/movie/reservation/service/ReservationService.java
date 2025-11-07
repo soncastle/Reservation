@@ -51,14 +51,15 @@ public class ReservationService {
     }
 
   public void reservationCancel(String email, String reservationTime){
-    Reservation reservation  = (Reservation) reservationRepository.findByEmailAndReservationTime(email, reservationTime);
+    Reservation reservation = reservationRepository
+        .findByEmailAndReservationTime(email, reservationTime)
+        .orElseThrow(() -> new IllegalArgumentException("해당 예약을 찾을 수 없습니다."));
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     String formattedTime = LocalDateTime.now().format(formatter);
     reservation.setCancelTime(formattedTime);
     reservation.setReservationState("취소");
     reservationRepository.save(reservation);
-
   }
 
   public List<Integer> findAllSeatNumbers(int movieId) {
