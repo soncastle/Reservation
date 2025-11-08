@@ -22,7 +22,8 @@ public class ReservationService {
   private final UserRepository userRepository;
 
   public String reservationMovie(ReservationDto reservationDto){
-    boolean exists = reservationRepository.existsBySeatNumbersInAndMovieId(reservationDto.getSeatNumbers(), reservationDto.getMovieId());
+    String reservationState = "예약";
+    boolean exists = reservationRepository.existsBySeatNumbersInAndMovieIdAndReservationState(reservationDto.getSeatNumbers(), reservationDto.getMovieId(), reservationState);
     if(exists){
       return "이미 예약된 좌석이 포함되어 있습니다!";
     }else{
