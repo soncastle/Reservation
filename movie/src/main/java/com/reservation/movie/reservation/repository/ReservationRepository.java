@@ -16,7 +16,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
   boolean existsBySeatNumbersInAndMovieId(List<Integer> seatNumbers, int movieId);
 
-  @Query("SELECT s.seatNumbers FROM Reservation s WHERE s.movieId = :movieId")
+  @Query("SELECT s.seatNumbers FROM Reservation s WHERE s.movieId = :movieId AND s.reservationState = '예약'")
   List<Integer> findSeatNumbersByMovieId(@Param("movieId") int movieId);
 
   List<Reservation> findAllByEmailOrderByReservationTimeDesc(String email);
