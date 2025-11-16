@@ -2,7 +2,7 @@ package com.reservation.movie.user.userDto;
 
 import com.reservation.movie.reservation.model.Reservation;
 import lombok.*;
-
+import com.reservation.movie.reservation.model.SeatReservation;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,7 +39,8 @@ public class UserReservationInfoDto {
                 .cancelTime(reservation.getCancelTime())
                 .reservationTime(reservation.getReservationTime())
                 .seatNumbers(
-                        reservation.getSeatNumbers().stream()
+                        reservation.getSeats().stream()
+                            .map(SeatReservation::getSeatNumber)
                                 .sorted()
                                 .map(String::valueOf)
                                 .collect(Collectors.joining(", "))

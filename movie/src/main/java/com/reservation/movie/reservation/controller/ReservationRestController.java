@@ -1,5 +1,6 @@
 package com.reservation.movie.reservation.controller;
 
+import com.reservation.movie.reservation.model.SeatReservation;
 import com.reservation.movie.reservation.reservationDto.CancelDto;
 import com.reservation.movie.reservation.service.ReservationService;
 import com.reservation.movie.reservation.reservationDto.ReservationDto;
@@ -23,7 +24,7 @@ public class ReservationRestController {
     return reservationService.reservationMovie(reservationDto);
   }
   @GetMapping("/seats/{movieId}")
-  public List<Integer> findAllSeatNumbers(@PathVariable int movieId){
+  public List<SeatReservation> findAllSeatNumbers(@PathVariable int movieId){
     return reservationService.findAllSeatNumbers(movieId);
   }
 

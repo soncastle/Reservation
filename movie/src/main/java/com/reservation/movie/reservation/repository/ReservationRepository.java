@@ -13,14 +13,14 @@ import java.util.Optional;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
-  boolean existsBySeatNumbersInAndMovieIdAndReservationState(List<Integer> seatNumbers, int movieId, String reservationState);
 
-  @Query("SELECT s.seatNumbers FROM Reservation s WHERE s.movieId = :movieId AND s.reservationState = '예약'")
-  List<Integer> findSeatNumbersByMovieId(@Param("movieId") int movieId);
 
   List<Reservation> findAllByEmailOrderByReservationTimeDesc(String email);
 
  Optional<Reservation> findByEmailAndReservationTime(String email, String reservationTime);
+
+ List<Integer> findSeatsInByMovieIdAndReservationState(int movieId, String ReservationState);
+
 
 //  @Modifying
 //  @Transactional

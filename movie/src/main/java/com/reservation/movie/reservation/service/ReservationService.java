@@ -1,8 +1,9 @@
 package com.reservation.movie.reservation.service;
 import com.reservation.movie.reservation.model.Reservation;
+import com.reservation.movie.reservation.model.SeatReservation;
 import com.reservation.movie.reservation.repository.ReservationRepository;
+import com.reservation.movie.reservation.repository.SeatReservationRepository;
 import com.reservation.movie.reservation.reservationDto.ReservationDto;
-import com.reservation.movie.user.model.User;
 import com.reservation.movie.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -20,35 +23,54 @@ import java.util.List;
 public class ReservationService {
   private final ReservationRepository reservationRepository;
   private final UserRepository userRepository;
+  private final SeatReservationRepository seatReservationRepository;
 
   public String reservationMovie(ReservationDto reservationDto){
-    String reservationState = "예약";
-    boolean exists = reservationRepository.existsBySeatNumbersInAndMovieIdAndReservationState(reservationDto.getSeatNumbers(), reservationDto.getMovieId(), reservationState);
-    if(exists){
+    List<SeatReservation> existsSeats = seatReservationRepository.findAllSeatNumberByMovieIdAndReservationState(reservationDto.getMovieId(), "예약");
+
+    List<Integer> requestSeats = reservationDto.getSeatNumbers();
+
+    Set<Integer> existsSeatNumbers = existsSeats.stream()
+        .map(SeatReservation::getSeatNumber)
+        .collect(Collectors.toSet());
+
+    boolean seatsConform = existsSeatNumbers.stream().anyMatch(requestSeats::contains);
+
+    if(seatsConform){
       return "이미 예약된 좌석이 포함되어 있습니다!";
-    }else{
+    }
+
       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
       String email = auth.getName();
 
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
       String formattedTime = LocalDateTime.now().format(formatter);
 
-      List<Integer> sortedSeats = reservationDto.getSeatNumbers().stream()
-              .sorted()
-              .toList();
-
       Reservation reservation = Reservation.builder()
               .movieId(reservationDto.getMovieId())
               .movieTitle(reservationDto.getMovieTitle())
               .email(email)
-              .seatNumbers(sortedSeats)
               .reservationTime(formattedTime)
               .reservationState("예약")
               .build();
 
+      List<Integer> sortSeatNumbers = reservationDto.getSeatNumbers().stream()
+          .sorted()
+          .toList();
+
+      List<SeatReservation> seatEntities = sortSeatNumbers.stream()
+              .map(seatNumber -> SeatReservation.builder()
+                  .movieId(reservationDto.getMovieId())
+                  .seatNumber(seatNumber)
+                  .reservationState("예약")
+                  .reservation(reservation)
+                  .build())
+                  .toList();
+
+      reservation.setSeats(seatEntities);
       reservationRepository.save(reservation);
       return "예약되었습니다.";
-    }
+
     }
 
   public void reservationCancel(String email, String reservationTime){
@@ -60,11 +82,18 @@ public class ReservationService {
     String formattedTime = LocalDateTime.now().format(formatter);
     reservation.setCancelTime(formattedTime);
     reservation.setReservationState("취소");
+
+    reservation.getSeats().forEach(seat -> {
+      seat.setReservationState("취소");
+    });
+
     reservationRepository.save(reservation);
   }
 
-  public List<Integer> findAllSeatNumbers(int movieId) {
-    return reservationRepository.findSeatNumbersByMovieId(movieId);
+  public List<SeatReservation> findAllSeatNumbers(int movieId) {
+    List<SeatReservation> seatList = seatReservationRepository.findAllSeatNumberByMovieIdAndReservationState(movieId, "예약");
+    return seatList;
+
   }
 
 }
