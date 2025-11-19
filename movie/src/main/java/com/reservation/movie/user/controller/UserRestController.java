@@ -1,5 +1,8 @@
 package com.reservation.movie.user.controller;
 
+import com.reservation.movie.execption.ErrorCode;
+import com.reservation.movie.reservation.execption.ReservationException;
+import com.reservation.movie.user.execption.UserException;
 import com.reservation.movie.user.model.CustomUserDetails;
 import com.reservation.movie.user.model.User;
 import com.reservation.movie.user.service.AuthService;
@@ -34,7 +37,7 @@ public class UserRestController {
         boolean success = authService.login(request.getEmail(), request.getPassword(), req, res);
 
         if (!success) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
+            throw new UserException(ErrorCode.INVALID_LOGIN);
         }
 
         return ResponseEntity.ok("로그인 성공");
@@ -45,8 +48,7 @@ public class UserRestController {
         UserDto userDto = userService.checkUserSession(session);
 
         if (userDto == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("세션이 만료되었거나 로그인 상태가 아닙니다.");
+            throw new UserException(ErrorCode.AUTH_REQUEST);
         }
         return ResponseEntity.ok(userDto);
     }
@@ -71,14 +73,13 @@ public class UserRestController {
     public ResponseEntity<?> userReservation(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("로그인 정보가 없습니다.");
+          throw new UserException(ErrorCode.AUTH_REQUEST);
         }
         String email = user.getEmail();
         List<UserReservationInfoDto> result = userService.userReservation(email);
 
         if (result.isEmpty()) {
-            return ResponseEntity.ok("예약 내역이 없습니다.");
+           throw new UserException(ErrorCode.RESERVATION_NOT_FOUND);
         }
         System.out.println(result);
         return ResponseEntity.ok(result);
