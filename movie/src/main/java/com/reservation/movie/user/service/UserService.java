@@ -1,7 +1,9 @@
 package com.reservation.movie.user.service;
 
+import com.reservation.movie.execption.ErrorCode;
 import com.reservation.movie.reservation.model.Reservation;
 import com.reservation.movie.reservation.repository.ReservationRepository;
+import com.reservation.movie.user.execption.UserException;
 import com.reservation.movie.user.model.User;
 import com.reservation.movie.user.repository.UserRepository;
 import com.reservation.movie.user.userDto.UserDto;
@@ -27,7 +29,7 @@ public class UserService {
 
     public String createUser(UserDto userDto){
         if(userRepository.existsByEmail(userDto.getEmail())){
-            return "이미 존재하는 이메일입니다.";
+            throw new UserException(ErrorCode.EMAIL_DUPLICATION);
         }
 
         User user = userDto.toEntity(passwordEncoder); // 비밀번호 암호화

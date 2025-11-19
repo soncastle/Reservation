@@ -1,4 +1,6 @@
 package com.reservation.movie.user.service;
+import com.reservation.movie.execption.ErrorCode;
+import com.reservation.movie.user.execption.UserException;
 import com.reservation.movie.user.model.CustomUserDetails;
 import com.reservation.movie.user.model.User;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,7 +19,7 @@ public class AuthService {
 
     public boolean login(String email, String password, HttpServletRequest req) {
         User user = userService.login(email, password);
-        if (user == null) return false;
+        if (user == null) throw new UserException(ErrorCode.INVALID_LOGIN);
 
         CustomUserDetails userDetails = new CustomUserDetails(user);
 

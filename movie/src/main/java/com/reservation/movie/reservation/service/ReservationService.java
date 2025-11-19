@@ -1,4 +1,7 @@
 package com.reservation.movie.reservation.service;
+import ch.qos.logback.core.spi.ErrorCodes;
+import com.reservation.movie.execption.ErrorCode;
+import com.reservation.movie.reservation.execption.ReservationException;
 import com.reservation.movie.reservation.model.Reservation;
 import com.reservation.movie.reservation.model.SeatReservation;
 import com.reservation.movie.reservation.repository.ReservationRepository;
@@ -34,10 +37,10 @@ public class ReservationService {
         .map(SeatReservation::getSeatNumber)
         .collect(Collectors.toSet());
 
-    boolean seatsConform = existsSeatNumbers.stream().anyMatch(requestSeats::contains);
+    boolean hasDuplicate = existsSeatNumbers.stream().anyMatch(requestSeats::contains);
 
-    if(seatsConform){
-      return "이미 예약된 좌석이 포함되어 있습니다!";
+    if(hasDuplicate){
+      throw new ReservationException(ErrorCode.SEAT_ALREADY_RESERVED, "현재 좌석 중 이미 예약된 좌석이 있습니다.");
     }
 
       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -76,7 +79,7 @@ public class ReservationService {
   public void reservationCancel(String email, String reservationTime){
     Reservation reservation = reservationRepository
         .findByEmailAndReservationTime(email, reservationTime)
-        .orElseThrow(() -> new IllegalArgumentException("해당 예약을 찾을 수 없습니다."));
+        .orElseThrow(() -> new ReservationException(ErrorCode.RESERVATION_NOT_FOUND, "예약 내역이 없습니다."));
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     String formattedTime = LocalDateTime.now().format(formatter);
@@ -93,7 +96,6 @@ public class ReservationService {
   public List<SeatReservation> findAllSeatNumbers(int movieId) {
     List<SeatReservation> seatList = seatReservationRepository.findAllSeatNumberByMovieIdAndReservationState(movieId, "예약");
     return seatList;
-
   }
 
 }
