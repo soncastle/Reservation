@@ -38,12 +38,6 @@ public class UserService {
         return "저장완료";
     }
 
-    public User login(String email, String password){
-        return userRepository.findByEmail(email)
-                .filter(user -> passwordEncoder.matches(password, user.getPassword()))
-                .orElse(null);
-    }
-
     public UserDto checkUserSession(HttpSession session){
         User user = (User) session.getAttribute("user");
         if (user == null) {

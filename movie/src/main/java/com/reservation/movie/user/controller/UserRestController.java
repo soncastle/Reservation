@@ -8,6 +8,7 @@ import com.reservation.movie.user.userDto.LoginRequestDto;
 import com.reservation.movie.user.userDto.UserDto;
 import com.reservation.movie.user.userDto.UserReservationInfoDto;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,8 +30,8 @@ public class UserRestController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDto request, HttpServletRequest req) {
-        boolean success = authService.login(request.getEmail(), request.getPassword(), req);
+    public ResponseEntity<?> login(@RequestBody LoginRequestDto request, HttpServletRequest req, HttpServletResponse res) {
+        boolean success = authService.login(request.getEmail(), request.getPassword(), req, res);
 
         if (!success) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
