@@ -38,15 +38,6 @@ public class UserService {
         return "저장완료";
     }
 
-    public UserDto checkUserSession(HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return null;
-        }
-
-        return UserDto.fromEntity(user);
-    }
-
     public List<UserReservationInfoDto> userReservation(String email){
         LocalDateTime now = LocalDateTime.now();
         List<Reservation> reservationList = reservationRepository.findAllByEmailOrderByReservationTimeDesc(email);

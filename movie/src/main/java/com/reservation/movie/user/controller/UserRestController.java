@@ -44,12 +44,8 @@ public class UserRestController {
     }
 
     @GetMapping("/checkSession")
-    public ResponseEntity<?> checkUserSession(HttpSession session) {
-        UserDto userDto = userService.checkUserSession(session);
-
-        if (userDto == null) {
-            throw new UserException(ErrorCode.AUTH_REQUEST);
-        }
+    public ResponseEntity<?> checkUserSession() {
+        UserDto userDto = authService.checkUserSession();
         return ResponseEntity.ok(userDto);
     }
 
@@ -71,12 +67,10 @@ public class UserRestController {
 
     @GetMapping("/userReservation")
     public ResponseEntity<?> userReservation(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-          throw new UserException(ErrorCode.AUTH_REQUEST);
-        }
-        String email = user.getEmail();
-        List<UserReservationInfoDto> result = userService.userReservation(email);
+        UserDto userInfo = authService.checkUserSession();
+
+        String userEmail = userInfo.getEmail();
+        List<UserReservationInfoDto> result = userService.userReservation(userEmail);
 
         if (result.isEmpty()) {
            throw new UserException(ErrorCode.RESERVATION_NOT_FOUND);

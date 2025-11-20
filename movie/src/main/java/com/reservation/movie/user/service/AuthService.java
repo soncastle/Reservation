@@ -4,9 +4,9 @@ import com.reservation.movie.user.execption.UserException;
 import com.reservation.movie.user.model.CustomUserDetails;
 import com.reservation.movie.user.model.User;
 import com.reservation.movie.user.repository.UserRepository;
+import com.reservation.movie.user.userDto.UserDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -43,11 +43,17 @@ public class AuthService {
         context.setAuthentication(auth);
 
         securityContextRepository.saveContext(context, req, res);
-
         SecurityContextHolder.setContext(context);
 
         return true;
+    }
 
-
+    public UserDto checkUserSession(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated() || auth.getPrincipal().equals("anonymousUser")) {
+            throw new UserException(ErrorCode.USER_NOT_FOUND);
+        }
+        CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+        return UserDto.fromEntity(userDetails.getUser());
     }
 }

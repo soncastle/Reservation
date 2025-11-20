@@ -10,8 +10,6 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("로그인 시도:", { email, password });
-    // 👉 실제 로그인 로직(API 연동) 추가 필요
 
     try{
       const response = await axios.post("http://localhost:8080/api/user/login", {
@@ -24,9 +22,10 @@ const LoginPage: React.FC = () => {
       const userData = response.data;
       alert("로그인 성공");
       console.log(response.data);
-      localStorage.setItem("userEmail", userData.email);
+
       goHome();
       window.location.reload();
+      
     }catch (error){
         console.log(error);
         alert("로그인 실패")

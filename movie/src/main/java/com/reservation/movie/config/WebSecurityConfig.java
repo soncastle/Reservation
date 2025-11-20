@@ -26,11 +26,11 @@ public class WebSecurityConfig {
                         .requestMatchers(
                             "/api/user/login",
                                 "/api/user/signup",
-                                "/api/user/checkSession",
                                 "/api/user/logout",
                                 "/api/reservation/movie",
                                 "/api/reservation/seats/{movieId}",
-                                "/api/user/userReservation").permitAll()
+                                "/api/user/userReservation",
+                            "/api/user/checkSession").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout
