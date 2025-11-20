@@ -3,6 +3,7 @@ import { useParams, useLocation } from "react-router-dom";
 import "../styles/SeatsReservation.css";
 import axios from "axios";
 import { useGoBack } from "../hooks/useGo";
+import api from "../common/api/axiosInstance";
 
 axios.defaults.withCredentials = true;
 
@@ -22,9 +23,7 @@ function SeatsReservation() {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/user/checkSession", {
-          withCredentials: true,
-        });
+          const response = await api.get("/user/checkSession");
         setIsLoggedIn(!!response.data);
       } catch {
         setIsLoggedIn(false);
@@ -37,12 +36,12 @@ function SeatsReservation() {
   useEffect(() => {
     const fetchReservedSeats = async () => {
       try {
-        const response = await axios.get<number[]>(
-          `http://localhost:8080/api/reservation/seats/${movieId}`
+        const response = await api.get<number[]>(
+          `/reservation/seats/${movieId}`
         );
         setReservedSeats(response.data.map(Number));
-      } catch (error) {
-        console.error("예약 좌석 가져오기 실패", error);
+      } catch (error: any) {
+        console.log(error.message)
       }
     };
     fetchReservedSeats();
@@ -60,23 +59,22 @@ function SeatsReservation() {
   const handleReservation = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isLoggedIn) {
-      alert("로그인 후 예약할 수 있습니다.");
-      return;
-    }
+    // if (!isLoggedIn) {
+    //   alert("로그인 후 예약할 수 있습니다.");
+    //   return;
+    // }
 
-    if (selectedSeats.length === 0) {
-      alert("좌석을 선택해주세요!");
-      return;
-    }
+    // if (selectedSeats.length === 0) {
+    //   alert("좌석을 선택해주세요!");
+    //   return;
+    // }
 
     try {
-      await axios.post("http://localhost:8080/api/reservation/movie", {
+      await api.post("/reservation/movie", {
         movieId,
         movieTitle: title,
         seatNumbers: selectedSeats,
-      });
-
+      })
       alert(
         `예약 완료! 🍽️ 식당: ${title}, 좌석 번호: ${selectedSeats.join(", ")}`
       );
@@ -84,9 +82,8 @@ function SeatsReservation() {
       setReservedSeats((prev) => [...prev, ...selectedSeats]);
       setSelectedSeats([]);
       
-    } catch (error) {
-      alert("예약 실패!");
-      console.error(error);
+    } catch (error: any) {
+      alert(error.message);
     }
   };
 

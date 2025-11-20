@@ -3,6 +3,8 @@ import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useGoBack, useGoHomeAndMenu } from "../hooks/useGo";
 import "../styles/Tailwind.css";
+import api from "../common/api/axiosInstance";
+import { ApiError } from "../common/api/errorHandler";
 axios.defaults.withCredentials = true;
 
 type ReservationInfo = {
@@ -16,35 +18,25 @@ type ReservationInfo = {
 function MyPage() {
   const [isEmail, setIsEmail] = useState(null);
   const [isReservationData, setReservationData] = useState<ReservationInfo[]>([]); 
-  // const [ReservationInfo, setReservationInfo] = useState<ReservationInfo>({
-  //   movieTitle : null,
-  //   reservationTime : null,
-  //   reservationSeats : null
-  // });
+
 
 const fatchUserReservationData = async () => {
-const userReservionData = await axios.get("http://localhost:8080/api/user/userReservation", {
-        withCredentials: true
-      })
+const userReservionData = await api.get("/user/userReservation")
       if(Array.isArray(userReservionData.data)){
         setReservationData(userReservionData.data);
       }
 }
 
-
 useEffect(() => {
   const checkSession = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/user/checkSession", {
-        withCredentials: true
-      });
+      const response = await api.get("/user/checkSession");
       await fatchUserReservationData();
       if(response.data){
         setIsEmail(response.data.email);
         }      
-      
-    } catch {
-      alert("로그인 후 이용바랍니다.");
+    } catch(error : any) {
+      alert(error.message);
     }
   };
   checkSession();
@@ -52,13 +44,13 @@ useEffect(() => {
 const handleCancel = async (reservationTime : string) => {
  
   try{
-    await axios.post("http://localhost:8080/api/reservation/movie/cancel", {
+    await api.post("/reservation/movie/cancel", {
       reservationTime: reservationTime
   })
   alert("취소가 완료되었습니다")
   await fatchUserReservationData();
-  }catch(error){
-    console.log(error);
+  }catch(error: any){
+    console.log(error.message);
   }
 }
 

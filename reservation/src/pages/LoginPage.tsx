@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "../styles/LoginPage.css";
 import axios from "axios";
 import { useGoHomeAndMenu } from "../hooks/useGo";
+import api from "../common/api/axiosInstance";
+import { ApiError } from "../common/api/errorHandler";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -12,23 +14,17 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
 
     try{
-      const response = await axios.post("http://localhost:8080/api/user/login", {
+      const response = await api.post("/user/login", {
         email,
         password,
-      },
-      {
-        withCredentials: true,
       });
       const userData = response.data;
-      alert("로그인 성공");
-      console.log(response.data);
-
+      alert("안녕하세요! " + userData.email + " 님!");
       goHome();
       window.location.reload();
-      
-    }catch (error){
-        console.log(error);
-        alert("로그인 실패")
+
+    }catch (error: any){
+        alert(error.message)
       }
   };
 

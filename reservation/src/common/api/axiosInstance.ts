@@ -1,14 +1,17 @@
 import axios, { AxiosError } from "axios";
-import { handleApiError } from "../utils/handleApiError";
+import { handleApiError } from "./errorHandler";
 
 const api = axios.create({
   baseURL: "http://localhost:8080/api",
   withCredentials: true,
+    headers: {
+    "Content-Type": "application/json"
+  }
 });
 
 api.interceptors.response.use(
   (res) => res,
-  (err: AxiosError) => {
+  (err) => {
     throw handleApiError(err);
   }
 );

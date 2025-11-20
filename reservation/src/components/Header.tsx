@@ -4,6 +4,8 @@ import '../styles/Tailwind.css'
 import { useLocation } from 'react-router-dom';
 import { useGoHomeAndMenu, useGoIntroducePage, useGoLoginPage, useGoMainPage, useGoMap, useGoMyPage, useGoShowMoviceList, useGoSignUpPage } from '../hooks/useGo';
 import axios from 'axios';
+import api from '../common/api/axiosInstance';
+import { ApiError } from '../common/api/errorHandler';
 
 const Header = () => {
     const imagePath: string = '/images/logo.png';
@@ -21,14 +23,13 @@ const [isEmail, setIsEmail] = useState(null);
     useEffect(() => {
       const checkLogin = async () => {
         try {
-          const response = await axios.get("http://localhost:8080/api/user/checkSession", {
-            withCredentials: true,
-          });
+          const response = await api.get("/user/checkSession");
           if (response.data.email)  {
             setIsLogin(true);
             setIsEmail(response.data.email);
           }
-        } catch {
+        } catch(error : any) {
+          alert(error.message);
           setIsLogin(false);
         }
       };
@@ -37,7 +38,7 @@ const [isEmail, setIsEmail] = useState(null);
 
     const handleLogout = async() => {
       try{
-      await axios.post("http://localhost:8080/api/user/logout", {}, {withCredentials : true});
+      await api.post("/user/logout", {});
         alert("로그아웃되었습니다.")
         setIsLogin(false);
         goHome();

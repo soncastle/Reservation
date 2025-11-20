@@ -51,7 +51,7 @@ public class AuthService {
     public UserDto checkUserSession(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !auth.isAuthenticated() || auth.getPrincipal().equals("anonymousUser")) {
-            throw new UserException(ErrorCode.USER_NOT_FOUND);
+            throw new UserException(ErrorCode.AUTH_REQUEST);
         }
         CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
         return UserDto.fromEntity(userDetails.getUser());

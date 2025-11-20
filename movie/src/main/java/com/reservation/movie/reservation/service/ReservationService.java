@@ -8,6 +8,7 @@ import com.reservation.movie.reservation.repository.ReservationRepository;
 import com.reservation.movie.reservation.repository.SeatReservationRepository;
 import com.reservation.movie.reservation.reservationDto.ReservationDto;
 import com.reservation.movie.user.repository.UserRepository;
+import com.reservation.movie.user.service.AuthService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.springframework.security.core.Authentication;
@@ -27,8 +28,11 @@ public class ReservationService {
   private final ReservationRepository reservationRepository;
   private final UserRepository userRepository;
   private final SeatReservationRepository seatReservationRepository;
+  private final AuthService authService;
 
   public String reservationMovie(ReservationDto reservationDto){
+    authService.checkUserSession();
+    if(reservationDto.getSeatNumbers().isEmpty() || reservationDto.getSeatNumbers() == null) throw new ReservationException(ErrorCode.SEAT_NOT_CHOOSE);
     List<SeatReservation> existsSeats = seatReservationRepository.findAllSeatNumberByMovieIdAndReservationState(reservationDto.getMovieId(), "예약");
 
     List<Integer> requestSeats = reservationDto.getSeatNumbers();
