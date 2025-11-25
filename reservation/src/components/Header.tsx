@@ -3,9 +3,10 @@ import '../styles/Header.css'
 import '../styles/Tailwind.css'
 import { useLocation } from 'react-router-dom';
 import { useGoHomeAndMenu, useGoIntroducePage, useGoLoginPage, useGoMainPage, useGoMap, useGoMyPage, useGoShowMoviceList, useGoSignUpPage } from '../hooks/useGo';
-import axios from 'axios';
 import api from '../common/api/axiosInstance';
-import { ApiError } from '../common/api/errorHandler';
+import { checkSession } from '../common/redux/userSlice';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../common/redux/store';
 
 const Header = () => {
     const imagePath: string = '/images/logo.png';
@@ -19,21 +20,11 @@ const Header = () => {
 
 const [isLogin, setIsLogin] = useState(false);
 const [isEmail, setIsEmail] = useState(null);
-
+const dispatch = useDispatch<AppDispatch>();
+ 
     useEffect(() => {
-      const checkLogin = async () => {
-        try {
-          const response = await api.get("/user/checkSession");
-          if (response.data.email)  {
-            setIsLogin(true);
-            setIsEmail(response.data.email);
-          }
-        } catch(error : any) {
-          alert(error.message);
-          setIsLogin(false);
-        }
-      };
-      checkLogin();
+     dispatch(checkSession());
+     setIsLogin(true);
     }, []);
 
     const handleLogout = async() => {
@@ -48,9 +39,6 @@ const [isEmail, setIsEmail] = useState(null);
     }
     }
     
-
-
-
   return (
     <div>
         <img className='w-80 mt-1' src={imagePath} alt="Header Image"></img>

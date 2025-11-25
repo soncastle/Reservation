@@ -10,12 +10,18 @@ import SeatsReservation from './pages/SeatsReservation';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import IntroducePage from './pages/IntroducePage';
-import { useAuth } from "./hooks/useAuth";
 import MyPage from "./pages/MyPage";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "./common/redux/store";
+import { useEffect } from "react";
+import { checkSession } from "./common/redux/userSlice";
 
 function App() {
-  const {isLoggedIn} = useAuth();
-  const userRole = localStorage.getItem("role")
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    dispatch(checkSession());
+  }, [dispatch]);
+
   return (
     <div className="App">
       <div className='backGroundColor'>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
-import { useGoBack, useGoHomeAndMenu } from "../hooks/useGo";
 import "../styles/Tailwind.css";
 import api from "../common/api/axiosInstance";
-import { ApiError } from "../common/api/errorHandler";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../common/redux/store";
+import { checkSession } from "../common/redux/userSlice";
 axios.defaults.withCredentials = true;
 
 type ReservationInfo = {
@@ -16,6 +16,7 @@ type ReservationInfo = {
 }
 
 function MyPage() {
+  const dispatch = useDispatch<AppDispatch>();
   const [isEmail, setIsEmail] = useState(null);
   const [isReservationData, setReservationData] = useState<ReservationInfo[]>([]); 
 
@@ -28,21 +29,18 @@ const userReservionData = await api.get("/user/userReservation")
 }
 
 useEffect(() => {
-  const checkSession = async () => {
-    try {
-      const response = await api.get("/user/checkSession");
-      await fatchUserReservationData();
-      if(response.data){
-        setIsEmail(response.data.email);
-        }      
-    } catch(error : any) {
-      alert(error.message);
+    const handelCheckSession = async () => {
+      try {
+        const res = await dispatch(checkSession()).unwrap();
+        setIsEmail(res.email);
+      } catch (err: any) {
+        alert(err);
+      }
     }
-  };
-  checkSession();
-}, []); //안넣어도 되지만 내부에 외부함수를 사용하였으므로, 랜더링즉시 실행되는 useEffect가 변화를 감지하여 다시 실행될 수 있도록 안전상 넣어둔 것.
+  handelCheckSession();
+  }, []);
+
 const handleCancel = async (reservationTime : string) => {
- 
   try{
     await api.post("/reservation/movie/cancel", {
       reservationTime: reservationTime

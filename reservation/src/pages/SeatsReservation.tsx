@@ -4,10 +4,14 @@ import "../styles/SeatsReservation.css";
 import axios from "axios";
 import { useGoBack } from "../hooks/useGo";
 import api from "../common/api/axiosInstance";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../common/redux/store";
+import { checkSession } from "../common/redux/userSlice";
 
 axios.defaults.withCredentials = true;
 
 function SeatsReservation() {
+  const dispatch = useDispatch<AppDispatch>();
   const { movieId } = useParams();
   const location = useLocation();
   const { title } = location.state || {};
@@ -20,18 +24,10 @@ function SeatsReservation() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-          const response = await api.get("/user/checkSession");
-        setIsLoggedIn(!!response.data);
-      } catch {
-        setIsLoggedIn(false);
-      }
-    };
-    checkSession();
-  }, []);
 
+useEffect(() => {
+  dispatch(checkSession());
+}, [])
 
   useEffect(() => {
     const fetchReservedSeats = async () => {
@@ -59,15 +55,6 @@ function SeatsReservation() {
   const handleReservation = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // if (!isLoggedIn) {
-    //   alert("로그인 후 예약할 수 있습니다.");
-    //   return;
-    // }
-
-    // if (selectedSeats.length === 0) {
-    //   alert("좌석을 선택해주세요!");
-    //   return;
-    // }
 
     try {
       await api.post("/reservation/movie", {
