@@ -23,8 +23,12 @@ const [isEmail, setIsEmail] = useState(null);
 const dispatch = useDispatch<AppDispatch>();
  
     useEffect(() => {
-     dispatch(checkSession());
+     const conformSesseion = async() => {
+     try{ dispatch(checkSession());
      setIsLogin(true);
+     } catch (err:any) {
+      setIsLogin(false);
+     }}
     }, []);
 
     const handleLogout = async() => {

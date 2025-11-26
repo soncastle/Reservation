@@ -24,20 +24,17 @@ function SeatsReservation() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-
-useEffect(() => {
-  dispatch(checkSession());
-}, [])
-
   useEffect(() => {
     const fetchReservedSeats = async () => {
       try {
         const response = await api.get<number[]>(
           `/reservation/seats/${movieId}`
         );
+        console.log("resdata" + response.data)
         setReservedSeats(response.data.map(Number));
+        
       } catch (error: any) {
-        console.log(error.message)
+        console.log("ㅎㅎㅎ" + error.message)
       }
     };
     fetchReservedSeats();
@@ -55,15 +52,15 @@ useEffect(() => {
   const handleReservation = async (e: React.FormEvent) => {
     e.preventDefault();
 
-
     try {
+      dispatch(checkSession());
       await api.post("/reservation/movie", {
         movieId,
         movieTitle: title,
         seatNumbers: selectedSeats,
       })
       alert(
-        `예약 완료! 🍽️ 식당: ${title}, 좌석 번호: ${selectedSeats.join(", ")}`
+        `예약 완료! 영화 제목: ${title}, 좌석 번호: ${selectedSeats.join(", ")}`
       );
 
       setReservedSeats((prev) => [...prev, ...selectedSeats]);

@@ -22,7 +22,6 @@ const LoginPage: React.FC = () => {
       alert("안녕하세요! " + userData.email + " 님!");
       goHome();
       window.location.reload();
-
     }catch (error: any){
         alert(error.message)
       }

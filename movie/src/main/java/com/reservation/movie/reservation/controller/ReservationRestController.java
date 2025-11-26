@@ -24,7 +24,7 @@ public class ReservationRestController {
     return reservationService.reservationMovie(reservationDto);
   }
   @GetMapping("/seats/{movieId}")
-  public List<SeatReservation> findAllSeatNumbers(@PathVariable int movieId){
+  public List<Integer> findAllSeatNumbers(@PathVariable int movieId){
     return reservationService.findAllSeatNumbers(movieId);
   }
 

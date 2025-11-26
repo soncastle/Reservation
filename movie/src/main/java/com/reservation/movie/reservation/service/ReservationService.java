@@ -97,8 +97,8 @@ public class ReservationService {
     reservationRepository.save(reservation);
   }
 
-  public List<SeatReservation> findAllSeatNumbers(int movieId) {
-    List<SeatReservation> seatList = seatReservationRepository.findAllSeatNumberByMovieIdAndReservationState(movieId, "예약");
+  public List<Integer> findAllSeatNumbers(int movieId) {
+    List<Integer> seatList = seatReservationRepository.findSeatNumberByMovieIdAndReservationState(movieId, "예약");
     return seatList;
   }
 

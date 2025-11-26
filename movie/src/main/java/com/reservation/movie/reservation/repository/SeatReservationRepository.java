@@ -12,4 +12,7 @@ public interface SeatReservationRepository extends JpaRepository<SeatReservation
 
 List<SeatReservation> findAllSeatNumberByMovieIdAndReservationState(int movieId, String reservationState);
 
+  @Query("SELECT s.seatNumber FROM SeatReservation s WHERE s.movieId = :movieId AND s.reservationState = :reservationState")
+  List<Integer> findSeatNumberByMovieIdAndReservationState(
+      @Param("movieId") int movieId, @Param("reservationState") String reservationState);
 }

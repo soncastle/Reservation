@@ -5,6 +5,7 @@ import api from "../common/api/axiosInstance";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../common/redux/store";
 import { checkSession } from "../common/redux/userSlice";
+import userEvent from "@testing-library/user-event";
 axios.defaults.withCredentials = true;
 
 type ReservationInfo = {
@@ -22,17 +23,19 @@ function MyPage() {
 
 
 const fatchUserReservationData = async () => {
-const userReservionData = await api.get("/user/userReservation")
-      if(Array.isArray(userReservionData.data)){
-        setReservationData(userReservionData.data);
+const userReservationData = await api.get("/user/userReservation")
+      if(Array.isArray(userReservationData.data)){
+        setReservationData(userReservationData.data);
       }
 }
+
 
 useEffect(() => {
     const handelCheckSession = async () => {
       try {
         const res = await dispatch(checkSession()).unwrap();
         setIsEmail(res.email);
+        fatchUserReservationData();
       } catch (err: any) {
         alert(err);
       }

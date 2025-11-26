@@ -1,6 +1,7 @@
 // src/store/userSlice.ts
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../api/axiosInstance";
+import { useGoMainPage } from "../../hooks/useGo";
 
 export interface UserState {
   isLoggedIn: boolean;
