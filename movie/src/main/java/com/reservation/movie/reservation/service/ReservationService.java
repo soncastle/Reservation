@@ -1,5 +1,4 @@
 package com.reservation.movie.reservation.service;
-import ch.qos.logback.core.spi.ErrorCodes;
 import com.reservation.movie.execption.ErrorCode;
 import com.reservation.movie.reservation.execption.ReservationException;
 import com.reservation.movie.reservation.model.Reservation;
@@ -10,7 +9,6 @@ import com.reservation.movie.reservation.reservationDto.ReservationDto;
 import com.reservation.movie.user.repository.UserRepository;
 import com.reservation.movie.user.service.AuthService;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -23,7 +21,6 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-@Builder
 public class ReservationService {
   private final ReservationRepository reservationRepository;
   private final UserRepository userRepository;
@@ -32,7 +29,7 @@ public class ReservationService {
 
   public String reservationMovie(ReservationDto reservationDto){
     authService.checkUserSession();
-    if(reservationDto.getSeatNumbers().isEmpty() || reservationDto.getSeatNumbers() == null) throw new ReservationException(ErrorCode.SEAT_NOT_CHOOSE);
+    if(reservationDto.getSeatNumbers() == null || reservationDto.getSeatNumbers().isEmpty()) throw new ReservationException(ErrorCode.SEAT_NOT_CHOOSE);
     List<SeatReservation> existsSeats = seatReservationRepository.findAllSeatNumberByMovieIdAndReservationState(reservationDto.getMovieId(), "예약");
 
     List<Integer> requestSeats = reservationDto.getSeatNumbers();
@@ -80,7 +77,7 @@ public class ReservationService {
 
     }
 
-  public void reservationCancel(String email, String reservationTime){
+  public String reservationCancel(String email, String reservationTime){
     Reservation reservation = reservationRepository
         .findByEmailAndReservationTime(email, reservationTime)
         .orElseThrow(() -> new ReservationException(ErrorCode.RESERVATION_NOT_FOUND, "예약 내역이 없습니다."));
@@ -95,10 +92,14 @@ public class ReservationService {
     });
 
     reservationRepository.save(reservation);
+    return "ok";
   }
 
   public List<Integer> findAllSeatNumbers(int movieId) {
     List<Integer> seatList = seatReservationRepository.findSeatNumberByMovieIdAndReservationState(movieId, "예약");
+    if(seatList == null || seatList.isEmpty()){
+      throw new ReservationException(ErrorCode.RESERVATION_NOT_FOUND);
+    }
     return seatList;
   }
 

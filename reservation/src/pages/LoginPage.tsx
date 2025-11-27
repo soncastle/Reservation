@@ -12,18 +12,16 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try{
       const response = await api.post("/user/login", {
         email,
         password,
-      });
-      const userData = response.data;
-      alert("안녕하세요! " + userData.email + " 님!");
+      })
+      alert(`안녕하세요! ${response.data} 님!`);
       goHome();
       window.location.reload();
     }catch (error: any){
-        alert(error.message)
+        alert(error)
       }
   };
 

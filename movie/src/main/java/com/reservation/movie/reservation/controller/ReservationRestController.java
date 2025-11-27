@@ -1,13 +1,12 @@
 package com.reservation.movie.reservation.controller;
 
-import com.reservation.movie.reservation.model.SeatReservation;
-import com.reservation.movie.reservation.reservationDto.CancelDto;
 import com.reservation.movie.reservation.service.ReservationService;
 import com.reservation.movie.reservation.reservationDto.ReservationDto;
 import com.reservation.movie.user.model.User;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,13 +27,13 @@ public class ReservationRestController {
     return reservationService.findAllSeatNumbers(movieId);
   }
 
-  @PostMapping("/movie/cancel")
-  String reservationCancel(@RequestBody Map<String, String> reservationTime, HttpSession session){
+  @PatchMapping("/movie/cancel")
+  public ResponseEntity<?> reservationCancel(@RequestBody Map<String, String> reservationTime, HttpSession session){
     User user = (User)session.getAttribute("user");
     String email = user.getEmail();
 
     String resTime = reservationTime.get("reservationTime");
-    reservationService.reservationCancel(email, resTime);
-    return "";
+    String ok = reservationService.reservationCancel(email, resTime);
+    return ResponseEntity.status(HttpStatus.OK).body(ok);
   }
 }

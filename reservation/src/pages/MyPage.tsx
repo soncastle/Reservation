@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../common/redux/store";
 import { checkSession } from "../common/redux/userSlice";
 import userEvent from "@testing-library/user-event";
+import { useGoHomeAndMenu } from "../hooks/useGo";
 axios.defaults.withCredentials = true;
 
 type ReservationInfo = {
@@ -19,11 +20,12 @@ type ReservationInfo = {
 function MyPage() {
   const dispatch = useDispatch<AppDispatch>();
   const [isEmail, setIsEmail] = useState(null);
-  const [isReservationData, setReservationData] = useState<ReservationInfo[]>([]); 
+  const [isReservationData, setReservationData] = useState<ReservationInfo[]>([]);
+  const {goHome} = useGoHomeAndMenu(); 
 
 
 const fatchUserReservationData = async () => {
-const userReservationData = await api.get("/user/userReservation")
+const userReservationData = await api.get("/user/reservations")
       if(Array.isArray(userReservationData.data)){
         setReservationData(userReservationData.data);
       }
@@ -38,6 +40,7 @@ useEffect(() => {
         fatchUserReservationData();
       } catch (err: any) {
         alert(err);
+        goHome();
       }
     }
   handelCheckSession();
@@ -45,7 +48,7 @@ useEffect(() => {
 
 const handleCancel = async (reservationTime : string) => {
   try{
-    await api.post("/reservation/movie/cancel", {
+    await api.patch("/reservation/movie/cancel", {
       reservationTime: reservationTime
   })
   alert("취소가 완료되었습니다")

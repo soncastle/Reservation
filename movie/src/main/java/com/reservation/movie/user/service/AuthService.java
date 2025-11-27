@@ -24,7 +24,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final SecurityContextRepository securityContextRepository;
 
-    public boolean login(String email, String password, HttpServletRequest req, HttpServletResponse res) {
+    public String login(String email, String password, HttpServletRequest req, HttpServletResponse res) {
 
         User user = userRepo.findByEmail(email)
             .orElseThrow(() -> new UserException(ErrorCode.INVALID_LOGIN));
@@ -45,7 +45,7 @@ public class AuthService {
         securityContextRepository.saveContext(context, req, res);
         SecurityContextHolder.setContext(context);
 
-        return true;
+        return email;
     }
 
     public UserDto checkUserSession(){

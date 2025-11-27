@@ -24,11 +24,13 @@ const dispatch = useDispatch<AppDispatch>();
  
     useEffect(() => {
      const conformSesseion = async() => {
-     try{ dispatch(checkSession());
+     try{ 
+      await dispatch(checkSession()).unwrap();
      setIsLogin(true);
      } catch (err:any) {
       setIsLogin(false);
      }}
+     conformSesseion();
     }, []);
 
     const handleLogout = async() => {

@@ -6,11 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface SeatReservationRepository extends JpaRepository<SeatReservation, Long> {
 
-List<SeatReservation> findAllSeatNumberByMovieIdAndReservationState(int movieId, String reservationState);
+@Query("SELECT s FROM SeatReservation s WHERE s.movieId = :movieId AND s.reservationState = :reservationState")
+List<SeatReservation> findAllSeatNumberByMovieIdAndReservationState(
+    @Param("movieId") int movieId, @Param("reservationState") String reservationState);
 
   @Query("SELECT s.seatNumber FROM SeatReservation s WHERE s.movieId = :movieId AND s.reservationState = :reservationState")
   List<Integer> findSeatNumberByMovieIdAndReservationState(

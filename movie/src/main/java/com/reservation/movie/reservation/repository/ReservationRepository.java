@@ -1,10 +1,7 @@
 package com.reservation.movie.reservation.repository;
 
 import com.reservation.movie.reservation.model.Reservation;
-import com.reservation.movie.user.model.User;
-import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -14,12 +11,11 @@ import java.util.Optional;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
 
+@Query("SELECT r FROM Reservation r WHERE r.email = :email ORDER BY r.reservationTime DESC")
+List<Reservation> findAllByEmailOrderByReservationTimeDesc(@Param("email") String email);
 
-  List<Reservation> findAllByEmailOrderByReservationTimeDesc(String email);
-
- Optional<Reservation> findByEmailAndReservationTime(String email, String reservationTime);
-
- List<Integer> findSeatsInByMovieIdAndReservationState(int movieId, String ReservationState);
+@Query("SELECT r FROM Reservation r WHERE r.email = :email AND r.reservationTime = :reservationTime")
+ Optional<Reservation> findByEmailAndReservationTime(@Param("email") String email, @Param("reservationTime") String reservationTime);
 
 
 //  @Modifying

@@ -34,13 +34,8 @@ public class UserRestController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto request, HttpServletRequest req, HttpServletResponse res) {
-        boolean success = authService.login(request.getEmail(), request.getPassword(), req, res);
-
-        if (!success) {
-            throw new UserException(ErrorCode.INVALID_LOGIN);
-        }
-
-        return ResponseEntity.ok("로그인 성공");
+        String email = authService.login(request.getEmail(), request.getPassword(), req, res);
+        return ResponseEntity.ok(email);
     }
 
     @GetMapping("/checkSession")
@@ -65,8 +60,8 @@ public class UserRestController {
         return userService.createUser(userdto);
     }
 
-    @GetMapping("/userReservation")
-    public ResponseEntity<?> userReservation(HttpSession session) {
+    @GetMapping("/reservations")
+    public ResponseEntity<?> userReservation() {
         UserDto userInfo = authService.checkUserSession();
 
         String userEmail = userInfo.getEmail();

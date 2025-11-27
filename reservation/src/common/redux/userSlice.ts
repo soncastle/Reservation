@@ -20,18 +20,6 @@ const initialState: UserState = {
   error: null,
 };
 
-export const checkSession = createAsyncThunk(
-  "user/checkSession",
-  async (_, thunkAPI) => {
-    try {
-      const res = await api.get("/user/checkSession");
-      return res.data;
-    } catch (err: any) {
-      return thunkAPI.rejectWithValue("세션이 없거나 만료되었습니다.");
-    }
-  }
-);
-
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -60,6 +48,20 @@ const userSlice = createSlice({
       });
   },
 });
+
+export const checkSession = createAsyncThunk(
+  "user/checkSession",
+  async (_, thunkAPI) => {
+    try {
+      const res = await api.get("/user/checkSession");
+      return res.data;
+    } catch (err: any) {
+      return thunkAPI.rejectWithValue("세션이 없거나 만료되었습니다.");
+    }
+  }
+);
+
+
 
 export const { logout } = userSlice.actions;
 export default userSlice.reducer;
