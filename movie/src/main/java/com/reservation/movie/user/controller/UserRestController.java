@@ -1,5 +1,6 @@
 package com.reservation.movie.user.controller;
 
+import com.reservation.movie.common.ApiResponse;
 import com.reservation.movie.execption.ErrorCode;
 import com.reservation.movie.reservation.execption.ReservationException;
 import com.reservation.movie.user.execption.UserException;
@@ -33,44 +34,34 @@ public class UserRestController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDto request, HttpServletRequest req, HttpServletResponse res) {
+    public ResponseEntity<ApiResponse<String>> login(@RequestBody LoginRequestDto request, HttpServletRequest req, HttpServletResponse res) {
         String email = authService.login(request.getEmail(), request.getPassword(), req, res);
-        return ResponseEntity.ok(email);
+        return ResponseEntity.ok(ApiResponse.success(email));
     }
 
     @GetMapping("/checkSession")
-    public ResponseEntity<?> checkUserSession() {
+    public ResponseEntity<ApiResponse<UserDto>> checkUserSession() {
         UserDto userDto = authService.checkUserSession();
-        return ResponseEntity.ok(userDto);
+        return ResponseEntity.ok(ApiResponse.success(userDto));
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpSession session) {
+    public ResponseEntity<ApiResponse<String>> logout(HttpSession session) {
         session.invalidate();
-        return ResponseEntity.status(HttpStatus.OK).body("로그아웃 완료");
-    }
-
-    @GetMapping
-    public List<User> getAllUser() {
-        return userService.getAllUser();
+        return ResponseEntity.ok(ApiResponse.success("로그아웃되었습니다."));
     }
 
     @PostMapping("/signup")
-    public String createUser(@RequestBody UserDto userdto) {
-        return userService.createUser(userdto);
+    public ResponseEntity<ApiResponse<String>> createUser(@RequestBody UserDto userdto) {
+        String response = userService.createUser(userdto);
+        return ResponseEntity.ok(ApiResponse.success(response));
     }
 
     @GetMapping("/reservations")
-    public ResponseEntity<?> userReservation() {
+    public ResponseEntity<ApiResponse<List<UserReservationInfoDto>>> userReservation() {
         UserDto userInfo = authService.checkUserSession();
-
         String userEmail = userInfo.getEmail();
-        List<UserReservationInfoDto> result = userService.userReservation(userEmail);
-
-        if (result.isEmpty()) {
-           throw new UserException(ErrorCode.RESERVATION_NOT_FOUND);
-        }
-        System.out.println(result);
-        return ResponseEntity.ok(result);
+        List<UserReservationInfoDto> response = userService.userReservation(userEmail);
+        return ResponseEntity.ok(ApiResponse.success(response));
     }
 }

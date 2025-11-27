@@ -27,14 +27,12 @@ function SeatsReservation() {
   useEffect(() => {
     const fetchReservedSeats = async () => {
       try {
-        const response = await api.get<number[]>(
+        const response = await api.get(
           `/reservation/seats/${movieId}`
         );
-        console.log("resdata" + response.data)
-        setReservedSeats(response.data.map(Number));
-        
+        setReservedSeats(response.data.data.map(Number));
       } catch (error: any) {
-        console.log("ㅎㅎㅎ" + error.message)
+        console.log(error.message)
       }
     };
     fetchReservedSeats();
@@ -51,7 +49,6 @@ function SeatsReservation() {
 
   const handleReservation = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
       dispatch(checkSession());
       await api.post("/reservation/movie", {
@@ -62,10 +59,8 @@ function SeatsReservation() {
       alert(
         `예약 완료! 영화 제목: ${title}, 좌석 번호: ${selectedSeats.join(", ")}`
       );
-
       setReservedSeats((prev) => [...prev, ...selectedSeats]);
       setSelectedSeats([]);
-      
     } catch (error: any) {
       alert(error.message);
     }
@@ -78,7 +73,6 @@ function SeatsReservation() {
         <div className="screen-label">
         🎬 SCREEN
         </div>
-
       <div className="table-grid">
         {Array.from({ length: totalSeats }, (_, i) => {
           const seatId = i + 1;

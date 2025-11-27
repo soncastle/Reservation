@@ -1,5 +1,6 @@
 package com.reservation.movie.reservation.controller;
 
+import com.reservation.movie.common.ApiResponse;
 import com.reservation.movie.reservation.service.ReservationService;
 import com.reservation.movie.reservation.reservationDto.ReservationDto;
 import com.reservation.movie.user.model.User;
@@ -19,21 +20,23 @@ public class ReservationRestController {
   private final ReservationService reservationService;
 
   @PostMapping("/movie")
-  String reservationMovie(@RequestBody ReservationDto reservationDto){
-    return reservationService.reservationMovie(reservationDto);
+  public ResponseEntity<ApiResponse<String>> reservationMovie(@RequestBody ReservationDto reservationDto){
+    String response = reservationService.reservationMovie(reservationDto);
+    return ResponseEntity.ok(ApiResponse.success(response));
   }
   @GetMapping("/seats/{movieId}")
-  public List<Integer> findAllSeatNumbers(@PathVariable int movieId){
-    return reservationService.findAllSeatNumbers(movieId);
+  public ResponseEntity<ApiResponse<List<Integer>>> findAllSeatNumbers(@PathVariable int movieId){
+    List<Integer> response = reservationService.findAllSeatNumbers(movieId);
+    return ResponseEntity.ok(ApiResponse.success(response));
   }
 
   @PatchMapping("/movie/cancel")
-  public ResponseEntity<?> reservationCancel(@RequestBody Map<String, String> reservationTime, HttpSession session){
+  public ResponseEntity<ApiResponse<String>> reservationCancel(@RequestBody Map<String, String> reservationTime, HttpSession session){
     User user = (User)session.getAttribute("user");
     String email = user.getEmail();
 
     String resTime = reservationTime.get("reservationTime");
-    String ok = reservationService.reservationCancel(email, resTime);
-    return ResponseEntity.status(HttpStatus.OK).body(ok);
+    String response = reservationService.reservationCancel(email, resTime);
+    return ResponseEntity.ok(ApiResponse.success(response));
   }
 }

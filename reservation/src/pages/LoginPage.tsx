@@ -17,7 +17,7 @@ const LoginPage: React.FC = () => {
         email,
         password,
       })
-      alert(`안녕하세요! ${response.data} 님!`);
+      alert(`안녕하세요! ${response.data.data} 님!`);
       goHome();
       window.location.reload();
     }catch (error: any){

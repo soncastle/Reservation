@@ -26,8 +26,8 @@ function MyPage() {
 
 const fatchUserReservationData = async () => {
 const userReservationData = await api.get("/user/reservations")
-      if(Array.isArray(userReservationData.data)){
-        setReservationData(userReservationData.data);
+      if(Array.isArray(userReservationData.data.data)){
+        setReservationData(userReservationData.data.data);
       }
 }
 

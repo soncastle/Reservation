@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ReservationService {
   private final ReservationRepository reservationRepository;
-  private final UserRepository userRepository;
   private final SeatReservationRepository seatReservationRepository;
   private final AuthService authService;
 

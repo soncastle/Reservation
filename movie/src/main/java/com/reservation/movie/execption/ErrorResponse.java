@@ -8,15 +8,17 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 public class ErrorResponse {
-  private final int status;       // HTTP status code (ex. 400, 404)
-  private final String code;      // ErrorCode 이름 (ex. USER_NOT_FOUND)
-  private final String message;   // 사용자에게 보여줄 메시지
+  private final boolean success;
+  private final int status;
+  private final String code;      // ErrorCode 이름
+  private final String message;
   private final String detail;    // (선택) 추가 설명
-  private final LocalDateTime timestamp; // 발생 시간
+  private final LocalDateTime timestamp;
   private final String path;      // (선택) 요청 URI
 
   public static ErrorResponse of(ErrorCode errorCode, String detail, String path) {
     return ErrorResponse.builder()
+        .success(false)
         .status(errorCode.getStatus().value())
         .code(errorCode.name())
         .message(errorCode.getMessage())

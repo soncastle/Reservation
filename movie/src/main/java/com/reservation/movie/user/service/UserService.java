@@ -41,8 +41,9 @@ public class UserService {
     public List<UserReservationInfoDto> userReservation(String email){
         LocalDateTime now = LocalDateTime.now();
         List<Reservation> reservationList = reservationRepository.findAllByEmailOrderByReservationTimeDesc(email);
-
-
+        if(reservationList == null || reservationList.isEmpty()){
+            throw new UserException(ErrorCode.RESERVATION_NOT_FOUND, "예약 내역이 없습니다.");
+        }
         return reservationList.stream()
                 .map(UserReservationInfoDto::fromEntity)
                 .toList();
