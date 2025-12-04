@@ -16,8 +16,13 @@ public class SeatReservation {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long Id;
 
+  @Column(name = "seat_number", nullable = false, length = 1)
   private int seatNumber;
+
+  @Column(name = "movieId", nullable = false, length = 10)
   private int movieId;
+
+  @Column(name = "reservation_State", nullable = false, length = 4)
   private String reservationState;
 
   @ManyToOne(fetch = FetchType.LAZY)

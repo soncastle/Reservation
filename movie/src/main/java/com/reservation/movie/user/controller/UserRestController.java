@@ -9,6 +9,7 @@ import com.reservation.movie.user.model.User;
 import com.reservation.movie.user.service.AuthService;
 import com.reservation.movie.user.service.UserService;
 import com.reservation.movie.user.userDto.LoginRequestDto;
+import com.reservation.movie.user.userDto.SignupRequestDto;
 import com.reservation.movie.user.userDto.UserDto;
 import com.reservation.movie.user.userDto.UserReservationInfoDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,8 +62,8 @@ public class UserRestController {
 
     @Operation(summary = "회원가입")
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponse<String>> createUser(@RequestBody UserDto userdto) {
-        String response = userService.createUser(userdto);
+    public ResponseEntity<ApiResponse<String>> createUser(@Valid @RequestBody SignupRequestDto signupRequestDto) {
+        String response = userService.createUser(signupRequestDto);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
     

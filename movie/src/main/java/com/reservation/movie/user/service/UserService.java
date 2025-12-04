@@ -6,6 +6,7 @@ import com.reservation.movie.reservation.repository.ReservationRepository;
 import com.reservation.movie.user.execption.UserException;
 import com.reservation.movie.user.model.User;
 import com.reservation.movie.user.repository.UserRepository;
+import com.reservation.movie.user.userDto.SignupRequestDto;
 import com.reservation.movie.user.userDto.UserDto;
 import com.reservation.movie.user.userDto.UserReservationInfoDto;
 import jakarta.servlet.http.HttpSession;
@@ -27,12 +28,12 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public String createUser(UserDto userDto){
-        if(userRepository.existsByEmail(userDto.getEmail())){
+    public String createUser(SignupRequestDto signupRequestDto){
+        if(userRepository.existsByEmail(signupRequestDto.getEmail())){
             throw new UserException(ErrorCode.EMAIL_DUPLICATION);
         }
 
-        User user = userDto.toEntity(passwordEncoder); // 비밀번호 암호화
+        User user = signupRequestDto.toEntity(passwordEncoder); // 비밀번호 암호화
         user.setRole("user");
         userRepository.save(user);
         return "저장완료";
