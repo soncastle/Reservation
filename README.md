@@ -4,7 +4,7 @@
 # 🛠️ 기술 스택
 | 구분         | 스택                                                                                                                                                                                                                  |
 |--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Backend**  | ![Java](https://img.shields.io/badge/Java_21-007396?style=for-the-badge&logo=java&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring_Boot_3.x-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white) ![RESTful API](https://img.shields.io/badge/RESTful_API-6DB33F?style=for-the-badge&logo=rest&logoColor=white) ![JPA](https://img.shields.io/badge/JPA-6DB33F?style=for-the-badge&logo=hibernate&logoColor=white)|
+| **Backend**  | ![Java](https://img.shields.io/badge/Java_21-007396?style=for-the-badge&logo=java&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring_Boot_3.x-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white) ![RESTful API](https://img.shields.io/badge/RESTful_API-6DB33F?style=for-the-badge&logo=rest&logoColor=white) ![JPA](https://img.shields.io/badge/JPA-6DB33F?style=for-the-badge&logo=hibernate&logoColor=white) ![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=white) |
 | **Frontend** | ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white) ![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white) ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white) ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white) ![Redux Toolkit](https://img.shields.io/badge/Redux_Toolkit-764ABC?style=for-the-badge&logo=redux&logoColor=white)
 | **Database** | ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white) |
 | **Tool**     | ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ_IDEA-000000?style=for-the-badge&logo=intellij-idea&logoColor=white) ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
@@ -41,6 +41,7 @@
     - Tailwind CSS와 일반 CSS를 병행해 스타일 구조를 유연하게 관리하고 가독성과 수정 편의성을 향상
   - UX
     - 반응형 이미지 처리를 통해 다양한 디바이스 환경에서 최적화된 화면을 제공
+    - 페이지 상황에 따라 특정 버튼을 숨겨 UI 복잡도를 낮추고 사용자 경험을 개선
 - Back
   - 아키텍처 안정성
     - 레이어드 구조로 책임을 명확히 분리해 유지보수성과 확장성을 확보하고, JPA 기반 엔티티 중심 설계로 CRUD 흐름의 일관성 유지
@@ -50,8 +51,10 @@
     - 전역 예외 처리와 ErrorCode 기반 분류로 오류 흐름을 일관되게 관리하며, 통일된 ErrorResponse로 클라이언트와의 오류 처리 규칙을 통합
   - API 품질 일관성
     - RESTful 규칙 기반으로 API 구조를 정돈하고, ApiResponse/ErrorResponse로 응답 포맷을 통일해 프론트와의 통신 안정성 향상
+    - Swagger을 적용하여 API 스펙을 안정적으로 공유하고, 프론트·백 간의 혼선을 방지를 통한 협업 효율 개선
   - DB 및 성능 최적화
     - 엔티티 중심 데이터 관리와 DB 레벨 동시성 제어를 적용해 좌석 중복 예약을 방지하고 안정적인 비즈니스 흐름을 유지
+    - 유효성 검사로 잘못된 입력을 방지하고, 올바른 데이터만 저장되도록 보장
 
 ## 적용한 세부 기능 및 디자인
 
@@ -61,14 +64,23 @@
 
 -----------------
 ### 수정 및 개발 현황
-- Swagger 준비
+- Test : Junit5를 활용한 유지보수 안정성 확보
 
 ### 고도화 예정인 기능
-- Test : Junit5를 활용한 유지보수 안정성 확보
 - Security : jwt를 활용한 사용자 데이터 안정성 증대
 
 -----------------
 #### 페이지 및 기능별 수정현황
+#11. Swagger, 유효성 검사 적용
+- Back
+  - Swagger
+    - Spring Security 접근 허용 처리 후, SwaggerConfig와 컨트롤러의 @Operation 설명을 활용하여 API 문서 자동화 구현
+  - 유효성 설정
+    - 엔티티 컬럼 설정 및 회원가입 전용 DTO를 활용한 유효성 설정
+- Front
+  - UX/UI
+    - 마이페이지 진입 시 해당 버튼을 숨겨 화면 요소를 줄이고, 보다 깔끔한 UX를 제공하도록 개선
+
 #10. 일관된 API 응답 구조 적용
 - Back
   - API 응답 형식 표준화
