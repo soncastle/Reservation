@@ -30,7 +30,9 @@ public class WebSecurityConfig {
                                 "/api/reservation/movie",
                                 "/api/reservation/seats/{movieId}",
                                 "/api/user/userReservation",
-                            "/api/user/checkSession").permitAll()
+                            "/api/user/checkSession",
+                            "/swagger-ui/**",
+                            "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout
