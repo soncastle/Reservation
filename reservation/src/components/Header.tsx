@@ -67,7 +67,8 @@ const dispatch = useDispatch<AppDispatch>();
             </>
                 ) : (
                   <>
-                    <button className='header-button' onClick={goMyPage}>마이페이지</button>
+                    {location.pathname !== "/MyPage" &&(
+                      <button className='header-button' onClick={goMyPage}>마이페이지</button>)}
                      <button className='header-button' onClick={handleLogout}>로그아웃</button>
                      </>
                 )}
