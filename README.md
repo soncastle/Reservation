@@ -1,6 +1,5 @@
 # 마이리솔(My Little Sol)
 - 영화 관람 기반 주점 좌석 예약 플랫폼
-- 포트폴리오 : https://docs.google.com/presentation/d/1pDhGlSYNtRKZ4RpDrCfQo9snvel8byGX/edit?usp=sharing&ouid=101759071324028700365&rtpof=true&sd=true
 
 # 🛠️ 기술 스택
 | 구분         | 스택                                                                                                                                                                                                                  |
