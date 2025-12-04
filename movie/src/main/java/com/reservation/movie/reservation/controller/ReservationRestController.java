@@ -38,12 +38,10 @@ public class ReservationRestController {
 
   @Operation(summary = "예약취소", description = "마이페이지에서 예약한 영화 취소")
   @PatchMapping("/movie/cancel")
-  public ResponseEntity<ApiResponse<String>> reservationCancel(@RequestBody Map<String, String> reservationTime, HttpSession session){
-    User user = (User)session.getAttribute("user");
-    String email = user.getEmail();
+  public ResponseEntity<ApiResponse<String>> reservationCancel(@RequestBody Map<String, String> reservationTime){
 
     String resTime = reservationTime.get("reservationTime");
-    String response = reservationService.reservationCancel(email, resTime);
+    String response = reservationService.reservationCancel(resTime);
     return ResponseEntity.ok(ApiResponse.success(response));
   }
 }

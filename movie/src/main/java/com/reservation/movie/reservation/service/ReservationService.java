@@ -76,7 +76,9 @@ public class ReservationService {
 
     }
 
-  public String reservationCancel(String email, String reservationTime){
+  public String reservationCancel(String reservationTime){
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    String email = auth.getName();
     Reservation reservation = reservationRepository
         .findByEmailAndReservationTime(email, reservationTime)
         .orElseThrow(() -> new ReservationException(ErrorCode.RESERVATION_NOT_FOUND, "예약 내역이 없습니다."));
@@ -91,7 +93,7 @@ public class ReservationService {
     });
 
     reservationRepository.save(reservation);
-    return "ok";
+    return email;
   }
 
   public List<Integer> findAllSeatNumbers(int movieId) {

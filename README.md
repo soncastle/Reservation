@@ -71,12 +71,16 @@
 
 -----------------
 #### 페이지 및 기능별 수정현황
-#11. Swagger, 유효성 검사 적용
+#11. Swagger, 유효성 검사 적용, 예약 취소 기능 수정
 - Back
   - Swagger
     - Spring Security 접근 허용 처리 후, SwaggerConfig와 컨트롤러의 @Operation 설명을 활용하여 API 문서 자동화 구현
   - 유효성 설정
     - 엔티티 컬럼 설정 및 회원가입 전용 DTO를 활용한 유효성 설정
+  - 예약 취소 기능 수정
+    - Securtiy WebConfig에 PATCH 추가를 통한 Rest API 세부 적용
+    - HttpSession 대신 Authentication 기반의 Spring Security 세션 구조로 일원화
+    - Controller 로직을 Service 계층으로 분리하여 역할 집중과 유지보수성 강화
 - Front
   - UX/UI
     - 마이페이지 진입 시 해당 버튼을 숨겨 화면 요소를 줄이고, 보다 깔끔한 UX를 제공하도록 개선

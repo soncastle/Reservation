@@ -5,7 +5,6 @@ import api from "../common/api/axiosInstance";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../common/redux/store";
 import { checkSession } from "../common/redux/userSlice";
-import userEvent from "@testing-library/user-event";
 import { useGoHomeAndMenu } from "../hooks/useGo";
 axios.defaults.withCredentials = true;
 
@@ -36,7 +35,7 @@ useEffect(() => {
     const handelCheckSession = async () => {
       try {
         const res = await dispatch(checkSession()).unwrap();
-        setIsEmail(res.email);
+        setIsEmail(res.data.email);
         fatchUserReservationData();
       } catch (err: any) {
         alert(err);

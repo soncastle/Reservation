@@ -15,7 +15,7 @@ public class WebConfig {
       public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // 모든 URL 허용
             .allowedOrigins("http://localhost:3000") // React 개발 서버 주소
-            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // 허용할 HTTP 메서드
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS") // 허용할 HTTP 메서드
             .allowCredentials(true); // 인증정보(쿠키 등) 허용
       }
     };

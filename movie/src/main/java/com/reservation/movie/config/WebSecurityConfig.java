@@ -25,11 +25,12 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                             "/api/user/login",
-                                "/api/user/signup",
-                                "/api/user/logout",
-                                "/api/reservation/movie",
-                                "/api/reservation/seats/{movieId}",
-                                "/api/user/userReservation",
+                            "/api/user/signup",
+                            "/api/user/logout",
+                            "/api/reservation/movie",
+                            "/api/reservation/seats/{movieId}",
+                            "/api/reservation/movie/cancel",
+                            "/api/user/userReservation",
                             "/api/user/checkSession",
                             "/swagger-ui/**",
                             "/v3/api-docs/**").permitAll()
