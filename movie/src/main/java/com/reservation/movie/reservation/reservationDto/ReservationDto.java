@@ -1,14 +1,12 @@
 package com.reservation.movie.reservation.reservationDto;
 
 import com.reservation.movie.reservation.model.Reservation;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -18,6 +16,6 @@ public class ReservationDto {
   private List<Integer> seatNumbers;
   private String email;
   private String reservationState;
-  private  String cancelTime;
+  private String cancelTime;
 
 }
