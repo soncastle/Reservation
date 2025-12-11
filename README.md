@@ -4,7 +4,7 @@
 # 🛠️ 기술 스택
 | 구분         | 스택                                                                                                                                                                                                                  |
 |--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Backend**  | ![Java](https://img.shields.io/badge/Java_21-007396?style=for-the-badge&logo=java&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring_Boot_3.x-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white) ![RESTful API](https://img.shields.io/badge/RESTful_API-6DB33F?style=for-the-badge&logo=rest&logoColor=white) ![JPA](https://img.shields.io/badge/JPA-6DB33F?style=for-the-badge&logo=hibernate&logoColor=white) ![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=white) |
+| **Backend**  | ![Java](https://img.shields.io/badge/Java_21-007396?style=for-the-badge&logo=java&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring_Boot_3.x-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white) ![RESTful API](https://img.shields.io/badge/RESTful_API-6DB33F?style=for-the-badge&logo=rest&logoColor=white) ![JPA](https://img.shields.io/badge/JPA-6DB33F?style=for-the-badge&logo=hibernate&logoColor=white) ![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=white) ![JUnit5](https://img.shields.io/badge/JUnit5-25A162?style=for-the-badge&logo=junit5&logoColor=white)|
 | **Frontend** | ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white) ![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white) ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white) ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white) ![Redux Toolkit](https://img.shields.io/badge/Redux_Toolkit-764ABC?style=for-the-badge&logo=redux&logoColor=white)
 | **Database** | ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white) |
 | **Tool**     | ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ_IDEA-000000?style=for-the-badge&logo=intellij-idea&logoColor=white) ![VSCode](https://img.shields.io/badge/VSCode-007ACC?style=for-the-badge&logo=visual%20studio%20code&logoColor=white) ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white) 
@@ -55,7 +55,10 @@
   - DB 및 성능 최적화
     - 엔티티 중심 데이터 관리와 DB 레벨 동시성 제어를 적용해 좌석 중복 예약을 방지하고 안정적인 비즈니스 흐름을 유지
     - 유효성 검사로 잘못된 입력을 방지하고, 올바른 데이터만 저장되도록 보장
-
+  - 테스트 및 품질검증
+    - 단위 테스트 : Service 로직을 독립적으로 검증하여 인증 처리(로그인), 회원가입 검증, 좌석 예약 비즈니스 규칙 등을 안전하게 보호
+    - 통합 테스트 : 회원가입 중복 처리, 좌석 예약 중복 로직, 동시성(Concurrent Insert) 문제를 재현·검증하여 데이터 무결성과 안정성을 확보
+    - 예외 흐름 검증: ErrorCode 기반 커스텀 예외가 각 시나리오에서 예상한 형태로 동작하는지 테스트하여 오류 응답의 일관성과 신뢰성 보장
 ## 적용한 세부 기능 및 디자인
 
 - favicon 및 로고 제작
@@ -71,6 +74,20 @@
 
 -----------------
 #### 페이지 및 기능별 수정현황
+#12. junit5 - 단위/통합테스트
+- Back
+  - 단위테스트
+    - Mock 기반 테스트로 Service 로직의 독립적인 검증 수행
+    - 로그인, 비밀번호 검증, 중복 이메일 로직 등을 Mocking하여 로직 정상동작을 확인
+    - Mockito when, verify, assertThat 등을 활용해 메서드 단위 로직의 신뢰성을 확보
+  - 통합테스트
+    - 실제 DB와 연동하여 CRUD 흐름, 트랜잭션, 예외 발생 여부를 실제 환경과 동일하게 검증
+    - 회원가입 및 좌석 예약의 동시성 문제를 핵심 도메인을 실제 데이터로 검증
+  - 예외 흐름 검증
+    - 단위/통합 테스트를 통해 각 비즈니스 로직에서 동일한 오류 상황이 발생했을 때 항상 동일한 예외 타입·메시지·응답 구조가 반환되는지 검증
+  - 추가설정
+    - 동시성 test를 위해 Unique 제약 조건을 활용할 수 있도록 ddl-auto: create로 변경
+
 #11. Swagger, 유효성 검사 적용, 예약 취소 기능 수정
 - Back
   - Swagger

@@ -24,6 +24,7 @@ import org.springframework.security.web.context.SecurityContextRepository;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -48,9 +49,11 @@ public class AuthServiceTest {
   @Mock
   private SecurityContextRepository securityContextRepository;
 
+  private User savedUser;
+
   @BeforeEach
   void loginInfo(){
-    User savedUser = new User();
+    savedUser = new User();
     savedUser.setEmail("test@naver.com");
     savedUser.setPassword("encodedPassword");
     savedUser.setRole("user");
@@ -58,7 +61,7 @@ public class AuthServiceTest {
     when(userRepository.findByEmail("test@naver.com"))
         .thenReturn(Optional.of(savedUser));
 
-    when(passwordEncoder.matches("Test123!!", "encodedPassword"))
+    when(passwordEncoder.matches(savedUser.getPassword(), "encodedPassword"))
         .thenReturn(true);
 
     doNothing().when(securityContextRepository)
@@ -67,15 +70,20 @@ public class AuthServiceTest {
 
   @Test
   void loginSuccess(){
-
   LoginRequestDto loginRequestDto = new LoginRequestDto();
-  loginRequestDto.setEmail("test@naver.com");
-  loginRequestDto.setPassword("Test123!!");
+  loginRequestDto.setEmail(savedUser.getEmail());
+  loginRequestDto.setPassword(savedUser.getPassword());
 
   authService.login(loginRequestDto.getEmail(), loginRequestDto.getPassword(), req, res);
 
-  verify(userRepository, times(1)).findByEmail(loginRequestDto.getEmail());
+  SecurityContext context = SecurityContextHolder.getContext();
 
-  verify(passwordEncoder, times(1)).matches("Test123!!", "encodedPassword");
+  assertThat(context.getAuthentication()).isNotNull();
+  assertThat(context.getAuthentication().getName())
+      .isEqualTo("test@naver.com");
+
+  verify(securityContextRepository, times(1))
+      .saveContext(any(), eq(req), eq(res));
+
   }
 }
