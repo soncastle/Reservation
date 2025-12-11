@@ -16,7 +16,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @SpringBootTest
@@ -28,6 +32,7 @@ public class ReservationIntegrationTest {
 
   @Autowired
   private SeatReservationRepository seatReservationRepository;
+
 
   @Test
   void reservationDuplicate(){
@@ -48,6 +53,7 @@ public class ReservationIntegrationTest {
         .seatNumber(1)
         .build();
     seatReservationRepository.save(seat);
+
     SeatReservation seats = SeatReservation.builder()
         .movieId(1)
         .reservationState("예약")
@@ -67,6 +73,46 @@ public class ReservationIntegrationTest {
     assertThatThrownBy(() -> reservationService.reservationMovie(dto))
         .isInstanceOf(ReservationException.class)
         .hasMessage("현재 좌석 중 이미 예약된 좌석이 있습니다.");
+  }
+
+  @Test
+  void seatReservationConcurrency() throws Exception {
+    User savedUser = new User();
+
+    savedUser.setRole("USER");
+    savedUser.setEmail("Test@naver.com");
+    savedUser.setPassword("Test123!!");
+
+    CustomUserDetails customUserDetails = new CustomUserDetails(savedUser);
+    Authentication authentication = new UsernamePasswordAuthenticationToken(customUserDetails, customUserDetails.getAuthorities());
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+    int threadCount = 2;
+    ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
+    CountDownLatch latch = new CountDownLatch(threadCount);
+
+
+    for (int i = 0; i < threadCount; i++){
+      executorService.submit(() -> {
+        try{
+          SeatReservation seatReservation = SeatReservation.builder()
+              .movieId(1)
+              .reservationState("예약")
+              .seatNumber(1)
+              .build();
+
+          seatReservationRepository.save(seatReservation);
+        }catch (Exception e){
+          System.out.println("좌석예약 동시성 확인 :" + e.getClass());
+        }finally {
+          latch.countDown();
+        }
+      });
+    }
+    latch.await();
+
+    long count = seatReservationRepository.count();
+    assertThat(count).isEqualTo(1);
   }
 
 }

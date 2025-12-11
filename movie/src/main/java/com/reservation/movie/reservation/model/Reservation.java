@@ -3,7 +3,6 @@ package com.reservation.movie.reservation.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +19,10 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "movie_title", nullable = false, length = 150)
+    @Column(name = "movie_title", nullable = false)
     private String movieTitle;
 
-    @Column(name = "movie_id", nullable = false, length = 10)
+    @Column(name = "movie_id", nullable = false)
     private int movieId;
 
     @Column(name = "email", nullable = false, length = 150)
@@ -35,7 +34,7 @@ public class Reservation {
     @Column(name = "cancelTime")
     private String cancelTime;
 
-    @Column(name = "reservation_state", nullable = false, length = 4)
+    @Column(name = "reservation_state", nullable = false)
     private String reservationState;
 
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true)
