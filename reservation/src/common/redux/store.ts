@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "./userSlice"; // ✔ 이 이름이 정말 중요함!
+import userReducer from "./userSlice"; 
 
 export const store = configureStore({
   reducer: {
-    user: userReducer,  // ✔ 여기도 userReducer
+    user: userReducer, 
   },
 });
 
