@@ -29,11 +29,11 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ orderId }) => {
 
       // 3️⃣ 결제창 호출
       await tossPayments.requestPayment("CARD", {
-        amount,
+        amount: amount,
         orderId: paymentOrderId, // 서버에서 만든 orderId
-        orderName,
-        successUrl: `${window.location.origin}/payment/success`,
-        failUrl: `${window.location.origin}/payment/fail`,
+        orderName: orderName,
+        successUrl: `${window.location.origin}/pay/success`,
+        failUrl: `${window.location.origin}/pay/fail`,
       });
 
     } catch (error) {

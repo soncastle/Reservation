@@ -8,11 +8,11 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class PaymentDto {
-  private String email;
-  private long orderId;
+  private String orderId;
   private int amount;
-  private String createdAt;
-  private String status;
   private String paymentKey;
+  private String email;
+  private String createdAt;
+  private String state;
 }
 

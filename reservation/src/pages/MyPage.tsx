@@ -38,7 +38,7 @@ useEffect(() => {
         setIsEmail(res.data.email);
         fatchUserReservationData();
       } catch (err: any) {
-        alert(err);
+        alert(err.message);
         goHome();
       }
     }

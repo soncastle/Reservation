@@ -43,8 +43,8 @@ function App() {
           <Route path='/signuppage' element={<SignUpPage/>}/>
           <Route path='/introducepage' element={<IntroducePage/>}/>
           <Route path="/mypage" element={<MyPage/>}/>
-          <Route path="/pay/paymentSuccess" element={<PaymentSuccess/>}/>
-          <Route path="/pay/paymentFail" element={<PaymentFail/>}/>
+          <Route path="/pay/paymentsuccess" element={<PaymentSuccess/>}/>
+          <Route path="/pay/paymentfail" element={<PaymentFail/>}/>
         </Routes>
         </div>
               <hr />

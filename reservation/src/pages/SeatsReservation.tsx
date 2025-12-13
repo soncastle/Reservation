@@ -15,31 +15,30 @@ function SeatsReservation() {
   const { movieId } = useParams();
   const location = useLocation();
   const { title } = location.state || {};
+  const { goBack } = useGoBack();
 
   const totalSeats = 8;
 
   const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
   const [reservedSeats, setReservedSeats] = useState<number[]>([]);
-  const { goBack } = useGoBack();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  /* 이미 예약된 좌석 조회 */
   useEffect(() => {
     const fetchReservedSeats = async () => {
       try {
-        const response = await api.get(
-          `/reservation/seats/${movieId}`
-        );
+        const response = await api.get(`/reservation/seats/${movieId}`);
         setReservedSeats(response.data.data.map(Number));
       } catch (error: any) {
-        console.log(error.message)
+        console.log(error.message);
       }
     };
     fetchReservedSeats();
   }, [movieId]);
 
+  /* 좌석 선택 토글 */
   const toggleSeat = (seatId: number) => {
     if (reservedSeats.includes(seatId)) return;
+
     setSelectedSeats((prev) =>
       prev.includes(seatId)
         ? prev.filter((id) => id !== seatId)
@@ -47,32 +46,57 @@ function SeatsReservation() {
     );
   };
 
-  const handleReservation = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      dispatch(checkSession());
-      await api.post("/reservation/movie", {
+  /* 결제 시작 */
+  const handlePayment = async () => {
+    if (selectedSeats.length === 0) {
+      alert("좌석을 선택하세요.");
+      return;
+    }
+
+    // 로그인(세션) 확인
+    await dispatch(checkSession());
+    const orderId = `ORDER_${Date.now()}`;
+    const amount = selectedSeats.length * 12000; // 좌석당 가격 예시
+
+    // 결제 성공 후 예약에 사용할 정보 저장
+    sessionStorage.setItem(
+      "reservationInfo",
+      JSON.stringify({
         movieId,
         movieTitle: title,
         seatNumbers: selectedSeats,
       })
-      alert(
-        `예약 완료! 영화 제목: ${title}, 좌석 번호: ${selectedSeats.join(", ")}`
-      );
-      setReservedSeats((prev) => [...prev, ...selectedSeats]);
-      setSelectedSeats([]);
-    } catch (error: any) {
-      alert(error.message);
+    );
+
+    const tossPayments = new (window as any).TossPayments(
+      process.env.REACT_APP_TOSS_CLIENT_KEY
+    );
+
+    try{
+    await tossPayments.requestPayment("CARD", {
+      amount,
+      orderId,
+      orderName: `${title} 좌석 예약`,
+      successUrl: `${window.location.origin}/pay/paymentsuccess`,
+      failUrl: `${window.location.origin}/pay/paymentfail`,
+    })}
+    catch(err : any){
+        if (err?.code === "USER_CANCEL") {
+    console.log("결제 취소");
+    return;
+  }
+    console.error("결제 에러", err);
+    alert("결제 중 오류가 발생했습니다.");
     }
-  };
+  }
 
   return (
     <div className="restaurant">
       <h1>좌석 예약</h1>
-      <h2>{title ? title : `가게 ID: ${movieId}`}</h2>
-        <div className="screen-label">
-        🎬 SCREEN
-        </div>
+      <h2>{title ? title : `영화 ID: ${movieId}`}</h2>
+
+      <div className="screen-label">🎬 SCREEN</div>
+
       <div className="table-grid">
         {Array.from({ length: totalSeats }, (_, i) => {
           const seatId = i + 1;
@@ -87,19 +111,19 @@ function SeatsReservation() {
               }`}
               onClick={() => toggleSeat(seatId)}
             >
-              <div className="chair top"></div>
-              <div className="chairSide left"/>
+              <div className="chair top" />
+              <div className="chairSide left" />
               <div className="table">{seatId}</div>
-              <div className="chairSide right"/>
-              <div className="chair bottom"></div>
+              <div className="chairSide right" />
+              <div className="chair bottom" />
             </div>
           );
         })}
       </div>
 
       <div>
-        <button className="reserve-btn" onClick={handleReservation}>
-          예약하기
+        <button className="reserve-btn" onClick={handlePayment}>
+          결제하기
         </button>
         <button className="reserve-btn" onClick={goBack}>
           이전으로

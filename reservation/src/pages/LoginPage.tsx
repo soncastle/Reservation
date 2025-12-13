@@ -21,7 +21,7 @@ const LoginPage: React.FC = () => {
       goHome();
       window.location.reload();
     }catch (error: any){
-        alert(error)
+        alert(error.message)
       }
   };
 

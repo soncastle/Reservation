@@ -1,16 +1,16 @@
 package com.reservation.movie.payment.model;
 
+import com.reservation.movie.payment.dto.PaymentDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table
+@Entity
+@Builder
 public class Payment {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +20,7 @@ public class Payment {
   private String email;
 
   @Column(nullable = false)
-  private long orderId;
+  private String orderId;
 
   @Column(nullable = false)
   private int amount;
@@ -33,4 +33,15 @@ public class Payment {
 
   @Column(nullable = false)
   private String paymentKey;
+
+  public static Payment from(PaymentDto dto){
+    return Payment.builder()
+        .status(dto.getState())
+        .paymentKey(dto.getPaymentKey())
+        .orderId(dto.getOrderId())
+        .createdAt(dto.getCreatedAt())
+        .amount(dto.getAmount())
+        .email(dto.getEmail())
+        .build();
+  }
 }
