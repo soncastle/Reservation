@@ -1,4 +1,4 @@
-package payment.service;
+package com.reservation.movie.payment.service;
 
 import com.reservation.movie.payment.dto.PaymentDto;
 import com.reservation.movie.payment.model.Payment;
@@ -12,9 +12,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.web.client.RestTemplate;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.*;
@@ -28,9 +32,6 @@ public class PaymentServiceTest {
   private PaymentRepository paymentRepository;
 
   @Mock
-  private AuthService authService;
-
-  @Mock
   private Authentication authentication;
 
   @Mock
@@ -41,26 +42,39 @@ public class PaymentServiceTest {
     SecurityContextHolder.setContext(securityContext);
     when(securityContext.getAuthentication()).thenReturn(authentication);
     when(authentication.getName()).thenReturn("test@naver.com");
+
+    ReflectionTestUtils.setField(
+        paymentService,
+        "secretKey",
+        "test-secret-key"
+    );
+
+    RestTemplate mockRestTemplate = mock(RestTemplate.class);
+    when(mockRestTemplate.postForEntity(
+        anyString(),
+        any(HttpEntity.class),
+        eq(String.class)
+    )).thenReturn(ResponseEntity.ok("ok"));
+
+      ReflectionTestUtils.setField(
+          paymentService,
+          "restTemplate",
+          mockRestTemplate
+      );
   }
 
   @Test
   void paymentSuccess(){
 
-    UserDto userDto = new UserDto();
-    when(authService.checkUserSession()).thenReturn(userDto);
-
     PaymentDto paymentDto = PaymentDto.builder()
         .orderId("orderId")
-        .createdAt("now")
         .amount(123)
-        .state("confirm")
         .paymentKey("paymentKey")
-        .email("test@naver.com")
         .build();
 
     String result = paymentService.confirmPayment(paymentDto);
     verify(paymentRepository, times(1)).save(any(Payment.class));
 
-    assertThat(result).isEqualTo("저장완");
+    assertThat(result).isEqualTo("ok");
   }
 }
