@@ -3,7 +3,6 @@ package com.reservation.movie.payment.controller;
 import com.reservation.movie.common.ApiResponse;
 import com.reservation.movie.payment.dto.PaymentDto;
 import com.reservation.movie.payment.service.PaymentService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -5,7 +5,9 @@ import lombok.*;
 
 @Entity
 @Table(name = "seat_reservation",
-uniqueConstraints = @UniqueConstraint(columnNames = {"movie_id", "seat_number"}))
+uniqueConstraints = @UniqueConstraint(
+    name = "uk_seat_movie",
+    columnNames = {"movie_id", "seat_number"}))
 @Getter
 @Setter
 @AllArgsConstructor
