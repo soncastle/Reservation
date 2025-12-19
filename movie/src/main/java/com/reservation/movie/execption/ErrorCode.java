@@ -6,8 +6,6 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ErrorCode {
 
-
-
   // 공통
   INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류가 발생했습니다."),
   INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "요청 값이 잘못되었습니다."),

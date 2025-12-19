@@ -7,6 +7,7 @@ import api from "../common/api/axiosInstance";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../common/redux/store";
 import { checkSession } from "../common/redux/userSlice";
+import "../styles/Tailwind.css";
 
 axios.defaults.withCredentials = true;
 
@@ -56,9 +57,8 @@ function SeatsReservation() {
     // 로그인(세션) 확인
     await dispatch(checkSession());
     const orderId = `ORDER_${Date.now()}`;
-    const amount = selectedSeats.length * 12000; // 좌석당 가격 예시
+    const amount = selectedSeats.length * 10000;
 
-    // 결제 성공 후 예약에 사용할 정보 저장
     sessionStorage.setItem(
       "reservationInfo",
       JSON.stringify({
@@ -94,7 +94,8 @@ function SeatsReservation() {
     <div className="restaurant">
       <h1>좌석 예약</h1>
       <h2>{title ? title : `영화 ID: ${movieId}`}</h2>
-
+      <h4 className="mb-5">예약 보증금으로 1테이블당 10,000원의 보증금이 부과됩니다. 당일 취소시 환불되지 않습니다.</h4>
+      <hr/>
       <div className="screen-label">🎬 SCREEN</div>
 
       <div className="table-grid">

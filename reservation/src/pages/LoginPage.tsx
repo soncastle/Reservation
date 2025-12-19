@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import "../styles/LoginPage.css";
-import axios from "axios";
 import { useGoHomeAndMenu } from "../hooks/useGo";
 import api from "../common/api/axiosInstance";
-import { ApiError } from "../common/api/errorHandler";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
