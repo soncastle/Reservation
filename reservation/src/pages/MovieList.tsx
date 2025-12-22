@@ -78,7 +78,7 @@ const MovieList = () => {
       {selectedMovie && (
         <div className="modal-overlay">
           <div className="modal">
-            <h2>예매 확인</h2>
+            <h2>영화 확인</h2>
             <img
               src={`https://image.tmdb.org/t/p/w300${selectedMovie.poster_path}`}
               alt={selectedMovie.title}
@@ -94,7 +94,7 @@ const MovieList = () => {
               })
             }
           >
-                예매하기
+                예약하기
               </button>
               <button className="cancel" onClick={() => setSelectedMovie(null)}>
                 취소

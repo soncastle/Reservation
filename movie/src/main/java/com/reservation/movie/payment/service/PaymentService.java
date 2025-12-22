@@ -61,6 +61,6 @@ public String confirmPayment(PaymentDto paymentDto){
   paymentRepository.save(payment);
 
   return response.getBody();
-}
 
+  }
 }

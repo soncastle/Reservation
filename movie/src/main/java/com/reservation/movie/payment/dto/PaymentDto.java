@@ -14,5 +14,6 @@ public class PaymentDto {
   private String email;
   private String createdAt;
   private String state;
+  private String refunded;
 }
 

@@ -40,7 +40,6 @@ public class UserService {
     }
 
     public List<UserReservationInfoDto> userReservation(String email){
-        LocalDateTime now = LocalDateTime.now();
         List<Reservation> reservationList = reservationRepository.findAllByEmailOrderByReservationTimeDesc(email);
 
         return reservationList.stream()

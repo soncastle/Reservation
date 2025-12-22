@@ -1,6 +1,4 @@
-import axios from 'axios'
-import React from 'react'
-axios.defaults.withCredentials = true;
+import Calendar from 'react-calendar';
 
 type SignupInfo = {
     email : string | null,
@@ -11,11 +9,9 @@ type SignupInfo = {
 
 const SignupList = () => {
 
-    
-
-
     return (
     <div>
+            <>gg</>
         <table>
             <thead>
                 <tr>
@@ -32,6 +28,7 @@ const SignupList = () => {
                 </tr>
             </tbody>
         </table>
+        <Calendar/>    
     </div>
   )
 }

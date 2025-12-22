@@ -37,6 +37,9 @@ public class Reservation {
     @Column(name = "reservation_state", nullable = false)
     private String reservationState;
 
+    @Column(name = "refunded")
+    private String refunded;
+
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SeatReservation> seats = new ArrayList<>();
 }

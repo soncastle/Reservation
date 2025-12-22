@@ -13,7 +13,9 @@ type ReservationInfo = {
   reservationTime : string | null,
   seatNumbers : string | null,
   reservationState : String | null,
-  cancelTime : String | null
+  cancelTime : String | null,
+  refunded : string | null
+
 }
 
 function MyPage() {
@@ -80,7 +82,9 @@ const handleCancel = async (reservationTime : string) => {
                   <td className="border px-4 py-2">{respone.movieTitle}</td>
                   <td className="border px-4 py-2">{respone.seatNumbers}</td>
                   <td className="border px-4 py-2">{respone.reservationState === "취소"
-                    ? respone.cancelTime : respone.reservationTime}</td>
+                    ?(<>{respone.cancelTime}
+                      <br/>{respone.refunded}
+                    </> ): respone.reservationTime}</td>
                   <td>{respone.reservationState === "취소" ? "취소" : <button onClick={() => handleCancel(respone.reservationTime!)} className="px-5 py-1 bg-orange-200 text-black rounded hover:bg-orange-800 transition"> 예약 취소</button>}</td>
                 </tr>
               ))

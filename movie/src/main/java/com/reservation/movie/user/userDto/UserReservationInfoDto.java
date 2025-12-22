@@ -20,6 +20,7 @@ public class UserReservationInfoDto {
     private String reservationTime;
     private String cancelTime;
     private String reservationState;
+    private String refunded;
 
 
     public UserReservationInfoDto toEntity(){
@@ -45,6 +46,8 @@ public class UserReservationInfoDto {
                                 .map(String::valueOf)
                                 .collect(Collectors.joining(", "))
                 )
+            .refunded("refunded".equals(reservation.getRefunded()) ?
+                            "반환 완료" : "반환 없음" )
                 .build();
     }
 }

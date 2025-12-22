@@ -34,6 +34,8 @@ public class Payment {
   @Column(nullable = false)
   private String paymentKey;
 
+  private String refunded;
+
   public static Payment from(PaymentDto dto){
     return Payment.builder()
         .status(dto.getState())
@@ -42,6 +44,7 @@ public class Payment {
         .createdAt(dto.getCreatedAt())
         .amount(dto.getAmount())
         .email(dto.getEmail())
+        .refunded(dto.getRefunded())
         .build();
   }
 }
