@@ -11,5 +11,6 @@ public class CancelDto {
  private String email;
  private String movieTitle;
  private String reservationState;
+ private String refunded;
 
 }

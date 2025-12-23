@@ -12,7 +12,7 @@ const api = axios.create({
 api.interceptors.response.use(
   (res) => res,
   (err) => {
-    throw handleApiError(err);
+    return Promise.reject(handleApiError(err));
   }
 );
 

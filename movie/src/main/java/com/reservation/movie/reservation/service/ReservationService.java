@@ -6,7 +6,6 @@ import com.reservation.movie.reservation.model.SeatReservation;
 import com.reservation.movie.reservation.repository.ReservationRepository;
 import com.reservation.movie.reservation.repository.SeatReservationRepository;
 import com.reservation.movie.reservation.reservationDto.ReservationDto;
-import com.reservation.movie.user.repository.UserRepository;
 import com.reservation.movie.user.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -73,7 +72,6 @@ public class ReservationService {
       reservation.setSeats(seatEntities);
       reservationRepository.save(reservation);
       return "예약되었습니다.";
-
     }
 
   public String reservationCancel(String reservationTime){
@@ -92,6 +90,13 @@ public class ReservationService {
       seat.setReservationState("취소");
     });
 
+    String today = formattedTime.substring(0, 10);
+    String reservationDate = reservationTime.substring(0, 10);
+    boolean refundable = !reservationDate.equals(today);
+    if(refundable){
+      reservation.setRefunded("refunded");
+    }
+      reservation.setRefunded("unRefunded");
     reservationRepository.save(reservation);
     return email;
   }
@@ -103,5 +108,4 @@ public class ReservationService {
     }
     return seatList;
   }
-
 }

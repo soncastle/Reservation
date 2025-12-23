@@ -26,8 +26,18 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(DataIntegrityViolationException.class)
   public ResponseEntity<ErrorResponse> handleDBConstraint(DataIntegrityViolationException e, HttpServletRequest request) {
-    ErrorCode errorCode = ErrorCode.SEAT_ALREADY_RESERVED;
-    log.error("[동시성충돌] 좌석 중복 예약 시도 발생", e);
+    Throwable cause = e.getMostSpecificCause();
+    String message = cause.getMessage();
+    ErrorCode errorCode;
+
+    if(message.contains("uk_user_email")){
+      errorCode = ErrorCode.EMAIL_DUPLICATION;
+      log.error("[동시성 충돌] 이메일 중복", e);
+    }
+     else {
+      errorCode = ErrorCode.SEAT_ALREADY_RESERVED;
+      log.error("[동시성 충돌] 좌석 외", e);
+    }
 
     return ResponseEntity
         .status(errorCode.getStatus())

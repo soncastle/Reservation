@@ -15,6 +15,9 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "./common/redux/store";
 import { useEffect } from "react";
 import { checkSession } from "./common/redux/userSlice";
+import PaymentSuccess from "./pages/pay/PaymentSuccess";
+import PaymentFail from "./pages/pay/PaymentFail";
+import SignupList from "./pages/amdin/SignupList";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -41,6 +44,9 @@ function App() {
           <Route path='/signuppage' element={<SignUpPage/>}/>
           <Route path='/introducepage' element={<IntroducePage/>}/>
           <Route path="/mypage" element={<MyPage/>}/>
+          <Route path="/pay/paymentsuccess" element={<PaymentSuccess/>}/>
+          <Route path="/pay/paymentfail" element={<PaymentFail/>}/>
+          <Route path="/admin/signuplist" element={<SignupList/>}/>
         </Routes>
         </div>
               <hr />

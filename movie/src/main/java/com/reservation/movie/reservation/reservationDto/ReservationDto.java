@@ -17,5 +17,5 @@ public class ReservationDto {
   private String email;
   private String reservationState;
   private String cancelTime;
-
+  private String refunded;
 }
